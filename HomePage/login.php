@@ -1,3 +1,55 @@
+<?php 
+    ob_start();
+    session_start();
+    include 'dbconfig.php';
+
+
+    if(isset($_POST['submit'])) {
+        $username = $_POST['username'];
+        $password = md5($_POST['password']);
+
+        // $username = filter_input(INPUT_POST, 'username');
+        // $password = filter_input(INPUT_POST, 'password');
+
+        if(empty($_POST['username']))
+        {
+            $username_error = "Please enter your username!";
+            include 'login.php';
+        }
+        if(empty($_POST['password']))
+        {
+            $password_error = "Please enter your password!";
+            include 'login.php';
+        }
+        if(isset($_POST['remember'])) {
+        setcookie("username", $username, time() + (86400), "/");
+        setcookie("password", $_POST['password'], time() + (86400), "/");
+        }
+        if(!empty($_POST['username']) && !empty($_POST['password']))   
+        {
+        $sql = "SELECT * FROM `taikhoan` where `username` = '$username' and `password` = '$password'";
+        $result = $conn->query($sql);
+        $row = mysqli_fetch_row($result);
+        if($result->num_rows > 0){
+            $_SESSION['login'] = $row;
+            header("Location: ./index.php");
+        }
+        else
+            {
+                $login_error = "Sai tài khoản hoặc mật khẩu!";
+                include 'login.php';
+            }
+        }
+    }
+    $username="";
+    $password="";
+    $check = false;
+    if(isset($_COOKIE['username']) && isset($_COOKIE['password'])) {
+    $username = $_COOKIE['username'];
+    $password = $_COOKIE['password'];
+    $check = true;
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,19 +66,18 @@
             <div class="login">
                 <div class="login-form">
                     <h1>Login Now</h1>
-                    <form action="./validate.php" method="post">
+                    <form action="" method="post">
                         <label for="username">USERNAME</label>
-                        <input value="" type="text" id="username" name="username" class="input-field">
+                        <input value="<?php echo $username ?>" type="text" id="username" name="username" class="input-field">
                         <span><?php if(isset($username_error))  echo $username_error ?></span>
                         <label for="password">PASSWORD</label>
-                        <input value="" type="password" id="password" name="password" class="input-field">
+                        <input value="<?php echo $password ?>" type="password" id="password" name="password" class="input-field damm">
                         <span><?php if(isset($password_error)) echo $password_error ?></span>
-                        <input type="checkbox" name="checkbox" id="checkbox" class="check-box">
+                        <input type="checkbox" name="remember" id="checkbox" class="check-box" value="1" <?php echo ($check)?"checked":""?>>
                         <p class="check-box">Remember Me</p>
-                        <button id="submit" type="submit" name="submit">Submit</button>
+                        <button id="submit" type="submit" name="submit">Sign In</button>
                         <span><?php if(isset($login_error)) echo $login_error ?></span>
                     </form>
-                        
                 </div>
             </div>
             <div class="hero-banner">
