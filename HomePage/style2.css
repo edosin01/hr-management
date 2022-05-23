@@ -1,0 +1,408 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 15px;
+    scroll-behavior: smooth;
+}
+
+.clwhite {
+    color: #fff;
+}
+
+.bgwhite {
+    background-color: #fff;
+}
+
+.icons {
+    font-size: 20px;
+    margin-right: 12px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.mg6 {
+    margin: 0 6px !important;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.flex-column {
+    flex-direction: column !important;
+}
+
+.main {
+    display: flex;
+}
+
+#menu {
+    width: 20%;
+    min-height: 100vh;
+    background-color: #33464F;
+    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+}
+
+#menu .acc {
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#menu .acc .avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    margin-left: 4px;
+}
+
+#menu .acc .info {
+    text-align: center;
+    margin-left: 4px;
+}
+
+#menu .acc .icon-menu {
+    font-size: 20px;
+    align-self: flex-start;
+    margin-top: 4px;
+    margin-right: 4px;
+}
+
+#nav {
+    display: block;
+}
+
+#nav li {
+    display: block;
+    position: relative;
+    background-color: #3D525B;
+    box-shadow: 0 4px 10px 0 rgb(0 0 0 / 20%);
+}
+
+#nav>li>a {
+    color: #fff;
+}
+
+#nav li a {
+    text-decoration: none;
+    line-height: 46px;
+    padding: 0 16px;
+    display: block;
+}
+
+#nav>li:hover>a {
+    background-color: #ccc;
+    color: #000;
+}
+
+
+#nav .right-arrow::after {
+    content: '\f105';
+    width: 1rem;
+    text-align: center;
+    float: right;
+    vertical-align: 0;
+    border: 0;
+    font-weight: 900;
+    font-family: 'Font Awesome 5 Free';
+}
+
+#content {
+    width: 80%;
+}
+
+#content .navbar {
+    height: 50px;
+    background-color: #3C8DBC;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 2px;
+}
+
+#content .navbar .nav-left {
+    font-size: 25px;
+    font-weight: 500;
+    display: none;
+}
+
+#content .navbar .nav-right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+#content .navbar .avatar {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+}
+
+#content .navbar .log-out-icon {
+    font-size: 25px !important;
+    margin-right: 12px !important;
+}
+
+#content .navbar .log-out-btn:hover {
+    color: #e6f60a;
+}
+
+#content .tieude {
+    height: 50px;
+    background-color: #C4C4C4;
+    margin-bottom: 12px;
+}
+
+#content .tieude .search-input {
+    background-color: #C4C4C4;
+}
+
+/* Giao diện: Main section */
+#content .items {
+    margin-bottom: 10px;
+}
+
+#content .items .item {
+    height: 160px;
+}
+
+#content .items .item:hover {
+    cursor: pointer;
+    opacity: 0.8;
+    text-decoration: none;
+}
+
+#content .items .item .item-info {
+    justify-content: center;
+    align-items: flex-start;
+    font-size: 28px;
+    color: #fff;
+}
+
+span.num {
+    font-size: 42px;
+    font-weight: 600;
+}
+
+#content .items .item .icon-item {
+    font-size: 100px;
+    color: #fff;
+    align-self: flex-start;
+}
+
+#content #ds-table {
+    padding: 15px 0;
+    border-radius: 5px;
+    box-shadow:0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+}
+
+.table-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+/* End: Giao diện: Main section */
+
+/* Giao diện: Danh sách nhân viên */
+#content .element-button {
+    position: relative;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.element-button .col-s-2 {
+    padding-left: 10px;
+}
+
+.element-button > .col-s-2 > a {
+    padding: 6px 12px;
+    font-weight: 500;
+}
+
+.element-button .btn-add {
+    background-color: rgb(166 236 171) !important;
+    color: rgb(1 123 10) !important;
+}
+
+.element-button .nhap-tu-file {
+    background: #e1ec86 !important;
+    color: #4b5400 !important;
+}
+
+.element-button .btn-excel {
+    color: #008c04 !important;
+    background: #a2ecb5 !important;
+}
+
+.element-button .pdf-file {
+    background: #efcaca !important;
+    color: #bf0000 !important;
+}
+
+.element-button .btn-delete {
+    background: #c3bfbf !important;
+    color: #232323 !important;
+}
+
+.table .img-table {
+    width: 100px;
+}
+.table .table-ct {
+    min-width: 220px;
+}
+
+.table .table-status {
+    min-width: 135px;
+}
+.table .table-status-sal {
+    min-width: 115px;
+}
+
+.table .table-status-emp {
+    padding: 8px;
+    border-radius: 50px;
+    width: 100%;
+    color: #fff;
+}
+
+.table .status-off {
+    background-color: #CF2B2B;
+}
+
+.table .status-on {
+    background-color: #2BA530;
+}
+
+.table .table-act {
+    min-width: 90px;
+}
+/* End: Giao diện: danh sách nhân viên */
+
+/* Giao diện: Xác nhận xóa */
+.modal {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal.open {
+    display: flex;
+}
+
+.modal-container {
+    background-color: #fff;
+    width: 600px;
+    max-width: calc(100% - 32px);
+    min-height: 200px;
+    position: relative;
+    box-shadow: 0 4px 10px 0 rgb(0 0 0 / 20%), 0 4px 20px 0 rgb(0 0 0 / 19%);
+    animation: modalFadeIn ease .45s;
+    border-radius: 10px;
+}
+
+.modal .m-title {
+    font-size: 32px;
+    font-weight: 600;
+    margin: 15px auto;
+}
+
+.modal .m-content {
+    border: none;
+    margin-bottom: 25px;
+    font-size: 20px;
+}
+
+.modal-close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: #fff;
+    padding: 16px;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* End: Giao diện: Xác nhận xóa */
+
+/* Giao diện: Chấm công */
+#content .filter {
+    background-color: #C4C4C4;
+    padding: 10px 0;
+    box-shadow: 0 4px 10px 0 rgb(0 0 0 / 20%);
+    margin-bottom: 30px;
+}
+
+#content .filter .btn-filter {
+    margin-top: 29px;
+    
+}
+
+#content .table .table-name {
+    min-width: 200px;
+}
+
+#content .table .table-sum {
+    min-width: 100px;
+    text-align: right;
+}
+
+#content .cc-info {
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+/* End: Giao diện: Chấm công */
+
+/* Giao diện: Form add nhân viên */
+#content .form-add {
+    background-color: #fff;
+    border-radius: 4px;
+}
+#content .form-add .form-add-title {
+    margin-top: 0;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #FFD43B;
+    padding-bottom: 10px;
+    padding-left: 5px;
+}
+
+#content .form-add .form-add-btn {
+    font-weight: 600;   
+    font-size: 16px;
+}
+
+#content .form-add .btn-save,
+.modal .modal-btn .btn-save {
+    background-color: rgb(166 236 171);
+    color: rgb(1 123 10);
+    width: 150px;
+    line-height: 30px;
+}
+
+#content .form-add .btn-cancel,
+.modal .modal-btn .btn-cancel {
+    background-color: rgb(255 197 197);
+    color: rgb(190, 40, 40);
+    width: 150px;
+    line-height: 30px;
+}
+/* End: Giao diện: Form add nhân viên */
