@@ -4,6 +4,7 @@
   if(!isset($_SESSION['login'])) {
     header("location: login.php");
   }
+  include 'dbconfig.php';
 ?>
 
 <!DOCTYPE html>

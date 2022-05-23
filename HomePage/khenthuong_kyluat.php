@@ -87,7 +87,7 @@
             alt="Lỗi hiển thị"
           />
           <span class="mg6">Admin 1</span>
-          <a href="./form_login.php" class="clwhite log-out-btn"><i class="bi bi-box-arrow-in-right icons mg6 log-out-icon"></i></a>
+          <a href="./form_logout.php" class="clwhite log-out-btn"><i class="bi bi-box-arrow-in-right icons mg6 log-out-icon"></i></a>
           </div>
         </div>
         <!-- End: Navbar -->

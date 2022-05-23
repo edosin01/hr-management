@@ -5,7 +5,7 @@
     $address = addslashes($_POST['address']);
     
     $gender = addslashes($_POST['gender']);
-    if($_gender == "Nam")
+    if($gender == "Nam")
         $gender = addslashes(0);
     else
         $gender = addslashes(1);
@@ -26,7 +26,8 @@
     $department = addslashes($res['maPhongBan']);
     
     $salary = addslashes($_POST['salary']);
-    $avatar = addslashes($_POST['ImageUpload']);
+    $avatar = addslashes(file_get_contents($_FILES['ImageUpload']['tmp_name']));
+
     $sql = "insert into nhanvien (maNV, tenNV, gioiTinh, avatar, thanhPho, soDT, email, maPhongBan,
         maChucVu, bacLuong) values ('$id', '$name', '$gender', '$avatar', '$address', '$phone',
         '$email', '$department', '$job', '$salary')";
