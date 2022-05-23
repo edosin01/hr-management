@@ -10,122 +10,271 @@ body {
     line-height: 1.5;
     color: #212529;
 }
-section {
-    height: 100vh;
-    background: linear-gradient(to bottom, #77bdd8, #064061);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+@media screen and (max-width: 1670px){
+    section {
+        height: 100vh;
+        background: linear-gradient(to bottom, #77bdd8, #064061);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .screen {
+        /* flex-grow: 1;
+        flex-basis: 1;
+        flex-shrink: 1; */
+        display: flex;
+        width: 73rem;
+        margin: 0 auto;
+        min-height: 500px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 15px 20px 0px rgb(0 0 0 / 10%);
+    }
+    
+    .login * {
+        display: block;
+    }
+    .login {
+        width: 35%;
+    }
+    .login .login-form {
+        height: 80%;
+        margin-top: 50px;
+    }
+    .login-form h1 {
+        text-align: center;
+        /* padding-bottom: 2.6rem; */
+        font-weight: 800;
+        font-size: 30px;
+        color: #064061;
+        margin-bottom: 2rem;
+    }
+    .login-form h1::after{
+        content: "";
+        width: 100px;
+        height: 5px;
+        background: #77bdd8;
+        display: block;
+        margin-top: 16px;
+        border-radius: 3px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .login form *{  
+        margin-left: 2.7rem;
+        margin-right: 0.8rem;
+    }
+    .login .login-form form .input-field {
+        padding: 6px 18px;
+        border-radius: 5px;
+        width: 80%;
+        outline: none;
+        border: 1px solid rgb(205, 205, 205);
+        margin-top: 0.8rem;
+        margin-bottom: 0.8rem;
+        font-size: 1.1rem;
+        line-height: 1.5rem;
+        transition: border-color .5s ease-in-out,box-shadow .5s ease-in-out;
+        transition: outline .1s ease-in-out,outline .1s ease-in-out;
+    }
+    .login .login-form form .input-field:focus {
+        border: 1px solid #2f80a0;
+        outline: 3px solid #9dcbdd;
+    }
+    .login .login-form form .check-box {
+        display: inline;
+    }
+    .login .login-form form p {
+        margin: 0;
+    }
+    .login .login-form form button {
+        display: inline-block;
+        margin-left: 6.1rem;
+        background: #77bdd8;
+        color: #fff;
+        font-weight: 600;
+        cursor: pointer;
+        outline: none;
+        border: 1px solid transparent;
+        padding: 0.575rem 0.95rem;
+        border-radius: 4px;
+        font-size: 1.1rem;
+    }
+    .login .login-form form button:hover {
+        background: #2293c0;
+    }
+    .hero-banner {
+        width: 65%;
+        /* background: url(); */
+        background: url(https://static.pexels.com/photos/33972/pexels-photo.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: 100%;
+        border-radius: 0 10px 10px 0px;
+        color: white
+    }
+    .hero-banner .description{
+        margin-top: 20rem;
+        margin-left: 2rem;
+    }
+    .description h2::after {
+        content: " ";
+        width: 100px;
+        height: 5px;
+        background: #FFF;
+        display: block;
+        margin-top: 16px;
+        border-radius: 3px;
+    }
+    span {
+        color: red;
+        padding-top: 4px;
+    }
 }
-.screen {
-    /* flex-grow: 1;
-    flex-basis: 1;
-    flex-shrink: 1; */
-    display: flex;
-    width: 73rem;
-    margin: 0 auto;
-    min-height: 500px;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 15px 20px 0px rgb(0 0 0 / 10%);
+@media screen and (min-width:1680px) {
+    section {
+        height: 100vh;
+        background: linear-gradient(to bottom, #77bdd8, #064061);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .screen {
+        /* flex-grow: 1;
+        flex-basis: 1;
+        flex-shrink: 1; */
+        display: flex;
+        width: 70%;
+        margin: 0 auto;
+        min-height: 41rem;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 15px 20px 0px rgb(0 0 0 / 10%);
+    }
+    
+    .login * {
+        display: block;
+    }
+    .login {
+        width: 35%;
+    }
+    .login .login-form {
+        height: 80%;
+        margin-top: 6.875rem;
+    }
+    .login-form h1 {
+        text-align: center;
+        /* padding-bottom: 2.6rem; */
+        font-weight: 800;
+        font-size: 30px;
+        color: #064061;
+        margin-bottom: 2rem;
+    }
+    .login-form h1::after{
+        content: "";
+        width: 100px;
+        height: 5px;
+        background: #77bdd8;
+        display: block;
+        margin-top: 16px;
+        border-radius: 3px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .login form *{  
+        margin-left: 2.7rem;
+        margin-right: 0.8rem;
+    }
+    .login .login-form form .input-field {
+        padding: 6px 18px;
+        border-radius: 5px;
+        width: 80%;
+        outline: none;
+        border: 1px solid rgb(205, 205, 205);
+        margin-top: 0.8rem;
+        margin-bottom: 1.2rem; 
+        font-size: 1.3rem;
+        line-height: 2.4rem; 
+        transition: border-color .5s ease-in-out,box-shadow .5s ease-in-out;
+        transition: outline .1s ease-in-out,outline .1s ease-in-out;
+    }
+    .login .login-form form .damm {
+        margin-bottom: 2rem;
+    }
+    .login .login-form form .input-field:focus {
+        border: 1px solid #2f80a0;
+        outline: 3px solid #9dcbdd;
+    }
+    .login .login-form form .check-box {
+        display: inline;
+    }
+    .login .login-form form p {
+        margin: 0;
+    }
+    .login .login-form form button {
+        display: inline-block;
+        margin-left: 7.2rem;
+        background: #77bdd8;
+        color: #fff;
+        font-weight: 600;
+        cursor: pointer;
+        outline: none;
+        border: 1px solid transparent;
+        padding: 0.75rem 1.95rem;
+        border-radius: 5px;
+        font-size: 1.1rem;
+    }
+    .login .login-form form button:hover {
+        background: #2293c0;
+    }
+    .hero-banner {
+        width: 65%;
+        /* background: url(); */
+        background: url(https://static.pexels.com/photos/33972/pexels-photo.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: 100%;
+        border-radius: 0 10px 10px 0px;
+        color: white
+    }
+    .hero-banner .description{
+        margin-top: 28rem;
+        margin-left: 3rem;
+    }
+    .description h2 {
+        font-size: 2.4rem;
+    }
+    .description p {
+        font-size: 1.1rem;
+    }
+    .description h2::after {
+        content: " ";
+        width: 100px;
+        height: 5px;
+        background: #FFF;
+        display: block;
+        margin-top: 16px;
+        border-radius: 3px;
+        margin-bottom: 5px;
+    }
+    span {
+        color: red;
+        padding-top: 4px;
+    }
+    label {
+        font-size: 1.2rem;
+        font-weight: 500;
+        color: #616060;
+    }
 }
-
-.login * {
-    display: block;
-}
-.login {
-    width: 35%;
-}
-.login .login-form {
-    height: 80%;
-    margin-top: 50px;
-}
-.login-form h1 {
-    text-align: center;
-    /* padding-bottom: 2.6rem; */
-    font-weight: 800;
-    font-size: 30px;
-    color: #064061;
-    margin-bottom: 2rem;
-}
-.login-form h1::after{
-    content: "";
-    width: 100px;
-    height: 5px;
-    background: #77bdd8;
-    display: block;
-    margin-top: 16px;
-    border-radius: 3px;
-    margin-left: auto;
-    margin-right: auto;
-}
-.login form *{  
-    margin-left: 2.2rem;
-    margin-right: 0.8rem;
-}
-.login .login-form form .input-field {
-    padding: 6px 18px;
-    border-radius: 5px;
-    width: 80%;
-    outline: none;
-    border: 1px solid rgb(205, 205, 205);
-    margin-top: 0.8rem;
-    margin-bottom: 0.8rem;
-    font-size: 1.1rem;
-    line-height: 1.5rem;
-    transition: border-color .5s ease-in-out,box-shadow .5s ease-in-out;
-    transition: outline .1s ease-in-out,outline .1s ease-in-out;
-}
-.login .login-form form .input-field:focus {
-    border: 1px solid #2f80a0;
-    outline: 3px solid #9dcbdd;
-}
-.login .login-form form .check-box {
-    display: inline;
-}
-.login .login-form form p {
-    margin: 0;
-}
-.login .login-form form button {
-    display: inline-block;
-    margin-left: 4.2rem;
-    background: #77bdd8;
-    color: #fff;
-    font-weight: 600;
-    cursor: pointer;
-    outline: none;
-    border: 1px solid transparent;
-    padding: 0.575rem 0.95rem;
-    border-radius: 4px;
-    font-size: 1.1rem;
-}
-.login .login-form form button:hover {
-    background: #2293c0;
-}
-.hero-banner {
-    width: 65%;
-    /* background: url(); */
-    background: url(https://static.pexels.com/photos/33972/pexels-photo.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: 100%;
-    border-radius: 0 10px 10px 0px;
-    color: white
-}
-.hero-banner .description{
-    margin-top: 20rem;
-    margin-left: 2rem;
-}
-.description h2::after {
-    content: " ";
-    width: 100px;
-    height: 5px;
-    background: #FFF;
-    display: block;
-    margin-top: 16px;
-    border-radius: 3px;
-}
-span {
-    color: red;
-    padding-top: 4px;
-}
+    /* .screen {
+        width: 70%;
+        min-height: 41rem;
+    }
+    .login .login-form {
+        margin-top: 6.875rem;
+    }
+    .login .login-form form .input-field {
+        margin-bottom: 1.8rem;
+        line-height: 2.2rem;
+    } */
