@@ -96,12 +96,15 @@
         <nav class="navbar tieude">
           <div class="container-fluid">
             <a class="navbar-brand clwhite navbar-title">Khen thưởng - Kỷ luật</a>
-            <form class="d-flex form-search">
+            <form class="d-flex form-search" method="get" action='search.php'>
               <input
                 class="form-control me-2"
                 type="search"
                 placeholder="Search"
                 aria-label="Search"
+                name="filter"
+                required
+                value=""
               />
               <button class="btn btn-outline-success" type="submit">
                 Search
@@ -127,57 +130,26 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>01</td>
-                                    <td>Đạt KPI</td>
-                                    <td>500.000đ</td>
-                                    <td class="table-td-center"><button class="btn btn-primary btn-sm trash" type="button" title="Xóa">
-                                      <i class="fas fa-trash-alt"></i>
-                                      </button>
-                                      <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp"
-                                        data-toggle="modal" data-target="#ModalUP"><i class="fas fa-edit"></i>
-                                      </button>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Đạt KPI</td>
-                                    <td>500.000đ</td>
-                                    <td class="table-td-center"><button class="btn btn-primary btn-sm trash" type="button" title="Xóa">
-                                      <i class="fas fa-trash-alt"></i>
-                                      </button>
-                                      <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp"
-                                        data-toggle="modal" data-target="#ModalUP"><i class="fas fa-edit"></i>
-                                      </button>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Đạt KPI</td>
-                                    <td>500.000đ</td>
-                                    <td class="table-td-center"><button class="btn btn-primary btn-sm trash" type="button" title="Xóa">
-                                      <i class="fas fa-trash-alt"></i>
-                                      </button>
-                                      <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp"
-                                        data-toggle="modal" data-target="#ModalUP"><i class="fas fa-edit"></i>
-                                      </button>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>01</td>
-                                    <td>Đạt KPI</td>
-                                    <td>500.000đ</td>
-                                    <td class="table-td-center"><button class="btn btn-primary btn-sm trash" type="button" title="Xóa">
-                                      <i class="fas fa-trash-alt"></i>
-                                      </button>
-                                      <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp"
-                                        data-toggle="modal" data-target="#ModalUP"><i class="fas fa-edit"></i>
-                                      </button>
-                                    </td>
-                                </tr>
+                              <?php
+                                $sql = "SELECT * from khenthuong";
+                                $result = mysqli_query($conn, $sql);
+                                if($result->num_rows > 0) {
+                                  while ($row = mysqli_fetch_array($result)) {
+                                    echo "<tr>";
+                                    echo "<td>".$row['ID_KhenThuong']."</td>";
+                                    echo "<td>".$row['noiDung']."</td>";
+                                    echo "<td>".$row['tienThuong']."</td>";
+                                    echo "<td class='table-td-center'><button class='btn btn-primary btn-sm trash' type='button' title='Xóa'>
+                                    <i class='fas fa-trash-alt'></i>
+                                    </button>
+                                    <button class='btn btn-primary btn-sm edit' type='button' title='Sửa' id='show-emp'
+                                      data-toggle='modal' data-target='#ModalUP'><i class='fas fa-edit'></i>
+                                    </button>
+                                  </td>";
+                                    echo "</tr>";
+                                  }
+                                }
+                              ?>
                             </tbody>
                         </table>
                     </div>
@@ -198,57 +170,26 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>01</td>
-                                    <td>Đi làm muộn</td>
-                                    <td>100.000đ</td>
-                                    <td class="table-td-center"><button class="btn btn-primary btn-sm trash" type="button" title="Xóa">
-                                      <i class="fas fa-trash-alt"></i>
-                                      </button>
-                                      <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp"
-                                        data-toggle="modal" data-target="#ModalUP"><i class="fas fa-edit"></i>
-                                      </button>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>02</td>
-                                    <td>Không đạt KPI</td>
-                                    <td>300.000đ</td>
-                                    <td class="table-td-center"><button class="btn btn-primary btn-sm trash" type="button" title="Xóa">
-                                      <i class="fas fa-trash-alt"></i>
-                                      </button>
-                                      <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp"
-                                        data-toggle="modal" data-target="#ModalUP"><i class="fas fa-edit"></i>
-                                      </button>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>02</td>
-                                    <td>Không đạt KPI</td>
-                                    <td>300.000đ</td>
-                                    <td class="table-td-center"><button class="btn btn-primary btn-sm trash" type="button" title="Xóa">
-                                      <i class="fas fa-trash-alt"></i>
-                                      </button>
-                                      <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp"
-                                        data-toggle="modal" data-target="#ModalUP"><i class="fas fa-edit"></i>
-                                      </button>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>02</td>
-                                    <td>Không đạt KPI</td>
-                                    <td>300.000đ</td>
-                                    <td class="table-td-center"><button class="btn btn-primary btn-sm trash" type="button" title="Xóa">
-                                      <i class="fas fa-trash-alt"></i>
-                                      </button>
-                                      <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp"
-                                        data-toggle="modal" data-target="#ModalUP"><i class="fas fa-edit"></i>
-                                      </button>
-                                    </td>
-                                </tr>
+                            <?php
+                                $sql = "SELECT * from kyluat";
+                                $result = mysqli_query($conn, $sql);
+                                if($result->num_rows > 0) {
+                                  while ($row = mysqli_fetch_array($result)) {
+                                    echo "<tr>";
+                                    echo "<td>".$row['ID_KyLuat']."</td>";
+                                    echo "<td>".$row['noiDung']."</td>";
+                                    echo "<td>".$row['tienPhat']."</td>";
+                                    echo "<td class='table-td-center'><button class='btn btn-primary btn-sm trash' type='button' title='Xóa'>
+                                    <i class='fas fa-trash-alt'></i>
+                                    </button>
+                                    <button class='btn btn-primary btn-sm edit' type='button' title='Sửa' id='show-emp'
+                                      data-toggle='modal' data-target='#ModalUP'><i class='fas fa-edit'></i>
+                                    </button>
+                                  </td>";
+                                    echo "</tr>";
+                                  }
+                                }
+                              ?>
                             </tbody>
                         </table>
                     </div>

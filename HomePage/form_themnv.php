@@ -97,12 +97,15 @@
         <nav class="navbar tieude">
           <div class="container-fluid">
             <a class="navbar-brand clwhite navbar-title">Thêm nhân viên mới</a>
-            <form class="d-flex form-search">
+            <form class="d-flex form-search" method="get">
               <input
                 class="form-control me-2"
                 type="search"
                 placeholder="Search"
                 aria-label="Search"
+                name="filter"
+                required
+                value=""
               />
               <button class="btn btn-outline-success" type="submit">
                 Search

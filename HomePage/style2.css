@@ -172,7 +172,7 @@ html {
     height: 160px;
 }
 
-#content .items .item:hover {
+#content .items .item:hover, a.btn-form {
     cursor: pointer;
     opacity: 0.8;
     text-decoration: none;

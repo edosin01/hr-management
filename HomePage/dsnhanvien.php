@@ -99,12 +99,15 @@
         <nav class="navbar tieude">
           <div class="container-fluid">
             <a class="navbar-brand clwhite navbar-title">Danh sách nhân viên</a>
-            <form class="d-flex form-search">
+            <form class="d-flex form-search" method="get" action="search.php">
               <input
                 class="form-control me-2"
                 type="search"
                 placeholder="Search"
                 aria-label="Search"
+                name="filter"
+                required
+                value=""
               />
               <button class="btn btn-outline-success" type="submit">
                 Search
@@ -158,7 +161,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                              <form action="../Controller/delete_nv.php" method="get">
                               <?php
                               if($result->num_rows > 0) {
                                 $i = 1;
@@ -177,29 +179,23 @@
                                   else
                                     echo "<td class='text-center'><span class='table-status-emp status-on'>Đang đi làm</span></td>";
 
-                                  echo "<td class='table-td-center'><button name ='delete' value='".$row['maNV']."' class='btn btn-primary btn-sm trash' type='submit' title='Xóa'>
-                                    <i class='fas fa-trash-alt'></i>
-                                    </button>
-                                    <button class='btn btn-primary btn-sm edit' type='button' title='Sửa' id='show-emp'
-                                      data-toggle='modal' data-target='#ModalUP'><i class='fas fa-edit'></i>
-                                    </button>
-                                  </td>";
+                                  echo"<td class='table-td-center'>
+                                    <a class='btn-form' href='update.php?id=" .$row['maNV'] ."'>
+                                      <button class='btn btn-primary btn-sm edit' type='button' title='Sửa'>
+                                        <i class='fas fa-edit'></i>
+                                      </button>
+                                    </a>
+                                    <a class='btn-form' href='../Controller/delete_nv.php?delete=" .$row['maNV'] ."'>
+                                      <button class='btn btn-primary btn-sm trash' type='button' title='Xóa'>
+                                        <i class='fas fa-trash-alt'></i>
+                                      </button>
+                                    </a></td>";
                                   echo "</tr>";
-                                //   echo "<div class='modal js-modal close'>";
-                                //   echo "<div class='modal-container js-modal-container text-center'>";
-                                //   echo "<div class='modal-title m-title'>Cảnh báo</div>";
-                                //   echo "<div class='modal-content m-content'>Bạn có chắc chắn muốn xóa nhân viên này?</div>";
-                                //   echo "<div class='modal-btn'>";
-                                //     echo "<button name='hi' value='" .$row['maNV'] ."'class='btn btn-save' type='submit'>Đồng ý</button>";
-                                //     echo "<button class='btn btn-cancel' type='button'>Hủy bỏ</button>";
-                                //   echo "</div>
-                                // </div>";
                                   $i++;
                                 }
                               }
                               ?>
                               </div>
-                            </form>
                             </tbody>
                         </table>
                     </div>

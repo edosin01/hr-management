@@ -13,17 +13,17 @@ btnClose.onclick = function(e) {
     menuNav.classList.add("close-nav");
 }
 
-// var btnTrash = document.querySelectorAll(".table .trash");
-// var btnCancel = document.querySelector(".modal .modal-btn .btn-cancel");
-// var modal = document.querySelector(".modal");
+var btnTrash = document.querySelectorAll(".table .trash");
+var btnCancel = document.querySelector(".modal .modal-btn .btn-cancel");
+var modal = document.querySelector(".modal");
 
-// for(btn of btnTrash) {
-// btn.onclick = function(e) {
-//         modal.classList.remove("close");
-//         modal.classList.add("open");
-//     }
-// }
-// btnCancel.onclick = function() {
-//     modal.classList.remove("open");
-//     modal.classList.add("close");
-// }
+for(btn of btnTrash) {
+btn.onclick = function(e) {
+        modal.classList.remove("close");
+        modal.classList.add("open");
+    }
+}
+btnCancel.onclick = function() {
+    modal.classList.remove("open");
+    modal.classList.add("close");
+}

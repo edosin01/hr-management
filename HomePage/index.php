@@ -106,12 +106,15 @@
         <nav class="navbar tieude">
           <div class="container-fluid">
             <a class="navbar-brand clwhite navbar-title">Tổng quan</a>
-            <form class="d-flex form-search">
+            <form class="d-flex form-search" method="get" action='search.php'>
               <input
                 class="form-control me-2"
                 type="search"
                 placeholder="Search"
                 aria-label="Search"
+                name="filter"
+                required
+                value=""
               />
               <button class="btn btn-outline-success" type="submit">
                 Search
@@ -159,7 +162,16 @@
             </a>
             <a href="#" class="col-sm mg6 d-flex item" style="background-color: #45D84B;">
               <div class="col-7 d-flex flex-column item-info">
-                <span class="num">03</span>
+                <span class="num">
+                <?php
+                    $sql_tk = "select * FROM taikhoan";
+                    $result_tk = mysqli_query($conn, $sql_tk);
+                    if($result_tk->num_rows < 10)
+                      echo "0" .$result_tk->num_rows;
+                    else
+                      echo $result_tk->num_rows;
+                  ?>
+                </span>
                 <span class="te">Tài khoản</span>
               </div>
               <div class="col-5 flex-column item-logo">
