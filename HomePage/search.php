@@ -1,23 +1,3 @@
-<!-- Trước khi add file này vào chạy 
-quay trở lại các file khác
-tìm form search và thay bằng: (ở .nav .tieude)
-<form class="d-flex form-search" action="search.php" method="get">
-    <input
-        class="form-control me-2"
-        type="search"
-        placeholder="Search"
-        aria-label="Search"
-        required
-        name="filter"
-        value=""
-    />
-    <button class="btn btn-outline-success" type="submit">
-        Search
-    </button>
-</form>
-
-
--->
 <?php
     ob_start();
     session_start();
@@ -145,7 +125,6 @@ tìm form search và thay bằng: (ở .nav .tieude)
         </nav>
         <!-- List nhân viên --> 
         <?php
-          $_filter = ''; 
           if(isset($_GET['filter'])) 
             $_filter = $_GET['filter'];
         ?>

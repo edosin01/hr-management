@@ -1,3 +1,7 @@
+<?php
+  include 'dbconfig.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -69,7 +73,6 @@
       </div>
       <div id="content">
         <!-- Begin: Navbar -->
-        <!-- Begin: Navbar -->
         <div class="navbar clwhite">
           <div class="nav-left">
             <i class="bi bi-list icon-menu clwhite"></i>
@@ -132,15 +135,13 @@
                                     <label for="exampleSelect1" class="control-label">Chức vụ</label>
                                     <select class="form-control" id="exampleSelect1">
                                         <option>-- Chọn chức vụ --</option>
-                                        <option>Bán hàng</option>
-                                        <option>Tư vấn</option>
-                                        <option>Dịch vụ</option>
-                                        <option>Thu Ngân</option>
-                                        <option>Quản kho</option>
-                                        <option>Bảo trì</option>
-                                        <option>Kiểm hàng</option>
-                                        <option>Bảo vệ</option>
-                                        <option>Tạp vụ</option>
+                                        <?php
+                                          $sql = "SELECT * FROM chucvu";
+                                          $resultchucvu = mysqli_query($conn, $sql);
+                                          while ($row = mysqli_fetch_assoc($resultchucvu)) {
+                                            echo "<option>". $row['tenChucVu']."</option>";
+                                          }
+                                        ?>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-3">
@@ -149,16 +150,30 @@
                                   </div>
                                 <div class="form-group col-md-3">
                                   <label class="control-label">Tiền thưởng</label>
-                                  <input class="form-control" type="text" required="">
+                                  <select class="form-control" id="exampleSelect1">
+                                        <option>-- Chọn khen thưởng --</option>
+                                        <?php
+                                          $sql = "SELECT * FROM khenthuong";
+                                          $result = mysqli_query($conn, $sql);
+                                          while ($row = mysqli_fetch_assoc($result)) {
+                                            echo "<option>". $row['noiDung']."</option>";
+                                          }
+                                        ?>
+                                    </select>
                                 </div>
 
                                 <div class="form-group  col-md-3">
                                   <label class="control-label">Tiền phạt</label>
-                                  <input class="form-control" type="text" required="">
-                                </div>
-                                <div class="form-group col-md-3">
-                                  <label class="control-label">Thực lĩnh</label>
-                                  <input class="form-control" type="text" required="">
+                                  <select class="form-control" id="exampleSelect1">
+                                        <option>-- Chọn kỷ luật --</option>
+                                        <?php
+                                          $sql = "SELECT * FROM kyluat";
+                                          $result = mysqli_query($conn, $sql);
+                                          while ($row = mysqli_fetch_assoc($result)) {
+                                            echo "<option>". $row['noiDung']."</option>";
+                                          }
+                                        ?>
+                                    </select>
                                 </div>
 
                                 <div class="form-group col-md-3">

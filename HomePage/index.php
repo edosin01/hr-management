@@ -146,8 +146,8 @@
               <div class="col-7 d-flex flex-column item-info">
                 <span class="num">
                   <?php
-                    $sql = "select * FROM phongban inner join nhanvien WHERE nhanvien.maPhongBan = phongban.maPhongBan and nhanvien.maNV = phongban.maTruongP;";
-                    $result = mysqli_query($conn, $sql);
+                    $sql_pb = "SELECT * FROM phongban";
+                    $result = mysqli_query($conn, $sql_pb);
                     if($result->num_rows < 10)
                       echo "0" .$result->num_rows;
                     else
@@ -201,28 +201,54 @@
                             </thead>
                             <tbody>
                             <?php
+                              $sql = "SELECT phongban.maPhongBan, tenPhongBan, maTruongP, tenNV, avatar, soDT
+                                FROM phongban, nhanvien
+                                WHERE nhanvien.maNV = phongban.maTruongP OR phongban.maTruongP IS NULL
+                                GROUP BY phongban.maPhongBan HAVING COUNT(phongban.maPhongBan) >= 1
+                                ORDER by phongban.maPhongBan;";
+                              $result = mysqli_query($conn, $sql);
                               if($result->num_rows > 0) {
                                 while ($row = mysqli_fetch_assoc($result)) {
-                                  echo "<tr>";
-                                  echo "<td>". $row['maPhongBan']."</td>";
-                                  echo "<td>". $row['tenPhongBan']."</td>";
-                                  echo "<td>". $row['maTruongP']."</td>";
-                                  echo "<td>". $row['tenNV']."</td>";
-                                  echo '<td><img src="data:image;base64,'.base64_encode($row['avatar']) .'" alt="image" style="width:100px;height:100px;" ></td>';
-                                  echo "<td>". $row['soDT']."</td>";
-                                  $rand = rand(1, 3);
-                                  if($rand == 1)
-                                    echo "<td class='text-center'><span class='table-status-emp status-off'>Không đi làm</span></td>";
-                                  else
-                                    echo "<td class='text-center'><span class='table-status-emp status-on'>Đang đi làm</span></td>";
-                                  echo "<td class='table-td-center'><button class='btn btn-primary btn-sm trash' type='button' title='Xóa'>
-                                      <i class='fas fa-trash-alt'></i>
-                                      </button>
-                                      <button class='btn btn-primary btn-sm edit' type='button' title='Sửa' id='show-emp'
-                                        data-toggle='modal' data-target='#ModalUP'><i class='fas fa-edit'></i>
-                                      </button>
-                                    </td>";
+                                  if($row['maTruongP'] != NULL) {
+                                    echo "<tr>";
+                                    echo "<td>". $row['maPhongBan']."</td>";
+                                    echo "<td>". $row['tenPhongBan']."</td>";
+                                    echo "<td>". $row['maTruongP']."</td>";
+                                    echo "<td>". $row['tenNV']."</td>";
+                                    echo '<td><img src="data:image;base64,'.base64_encode($row['avatar']) .'" alt="image" style="width:100px;height:100px;" ></td>';
+                                    echo "<td>". $row['soDT']."</td>";
+                                    $rand = rand(1, 3);
+                                    if($rand == 1)
+                                      echo "<td class='text-center'><span class='table-status-emp status-off'>Không đi làm</span></td>";
+                                    else
+                                      echo "<td class='text-center'><span class='table-status-emp status-on'>Đang đi làm</span></td>";
+                                    echo "<td class='table-td-center'><button class='btn btn-primary btn-sm trash' type='button' title='Xóa'>
+                                        <i class='fas fa-trash-alt'></i>
+                                        </button>
+                                        <button class='btn btn-primary btn-sm edit' type='button' title='Sửa' id='show-emp'
+                                          data-toggle='modal' data-target='#ModalUP'><i class='fas fa-edit'></i>
+                                        </button>
+                                      </td>";
+                                      echo "</tr>";
+                                  }
+                                  else {
+                                    echo "<tr>";
+                                    echo "<td>". $row['maPhongBan']."</td>";
+                                    echo "<td>". $row['tenPhongBan']."</td>";
+                                    echo "<td>Trống</td>";
+                                    echo "<td>Trống</td>";
+                                    echo "<td>Trống</td>";
+                                    echo "<td>Trống</td>";
+                                    echo "<td class='text-center'><span class='table-status-emp status-off'>Không tồn tại</span></td>";
+                                    echo "<td class='table-td-center'><button class='btn btn-primary btn-sm trash' type='button' title='Xóa'>
+                                        <i class='fas fa-trash-alt'></i>
+                                        </button>
+                                        <button class='btn btn-primary btn-sm edit' type='button' title='Sửa' id='show-emp'
+                                          data-toggle='modal' data-target='#ModalUP'><i class='fas fa-edit'></i>
+                                        </button>
+                                      </td>";
                                     echo "</tr>";
+                                  }
                                 }
                               }
                               ?>
