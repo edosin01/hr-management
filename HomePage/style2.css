@@ -67,6 +67,10 @@ html {
     margin-left: 4px;
 }
 
+.acc .info .status {
+    font-size: 14px;
+}
+
 #menu .acc .icon-menu {
     font-size: 20px;
     align-self: flex-start;

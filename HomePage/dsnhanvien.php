@@ -31,10 +31,9 @@
           />
           <div class="info clwhite">
             <span class="name">ADMIN1</span><br />
-            <span class="status"
-              ><img src="../assets/img/green_dot.png" alt="" width="15px" />
-              Đang hoạt động</span
-            >
+            <span class="status">
+              <img src="../assets/img/green_dot.png" alt="" width="15px" />
+              Đang hoạt động</span>
           </div>
           <i class="bi bi-list icon-menu icon-menu-close clwhite"></i>
         </div>
@@ -180,12 +179,12 @@
                                     echo "<td class='text-center'><span class='table-status-emp status-on'>Đang đi làm</span></td>";
 
                                   echo"<td class='table-td-center'>
-                                    <a class='btn-form' href='update.php?id=" .$row['maNV'] ."'>
+                                    <a class='btn-form' href='chitiet_nhanvien.php?update=" .$row['maNV'] ."'>
                                       <button class='btn btn-primary btn-sm edit' type='button' title='Sửa'>
                                         <i class='fas fa-edit'></i>
                                       </button>
                                     </a>
-                                    <a class='btn-form' href='../Controller/delete_nv.php?delete=" .$row['maNV'] ."'>
+                                    <a class='btn-form' href='../Controller/delete_nv.php?delete=" .$row['maNV'] ."' onclick='return confirm('Bạn có chắc muốn xóa bản ghi này?')'>
                                       <button class='btn btn-primary btn-sm trash' type='button' title='Xóa'>
                                         <i class='fas fa-trash-alt'></i>
                                       </button>

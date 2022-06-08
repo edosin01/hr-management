@@ -6,9 +6,9 @@
     
     $gender = addslashes($_POST['gender']);
     if($gender == "Nam")
-        $gender = addslashes(0);
-    else
         $gender = addslashes(1);
+    else
+        $gender = addslashes(0);
     
     $email = addslashes($_POST['email']);
     $phone = addslashes($_POST['phone']);

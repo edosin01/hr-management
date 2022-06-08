@@ -21,8 +21,8 @@
     <!-- CSS only -->
     <link rel="stylesheet" href="../assets/font/bootstrap.css" />
     <link rel="stylesheet" href="../assets/font/bootstrap-icons.css" />
-    <link rel="stylesheet" href="./responsive.css">
     <link rel="stylesheet" href="./style2.css"/>
+    <link rel="stylesheet" href="./responsive.css">
     
   </head>
 
