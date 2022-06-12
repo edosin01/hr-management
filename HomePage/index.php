@@ -185,7 +185,13 @@
             <div class="col-md-12">
                 <div class="row" id="ds-table">
                   <div class="col-sm-12">
-                      <span class="table-title">Danh sách phòng ban</span>
+                      <div class="element-button d-flex">
+                        <span class="table-title">Danh sách phòng ban</span>
+                        <div class="col-s-2">
+                          <a class="btn btn-add btn-sm" href="./form_thempb.php" title="Thêm"><i class="fas fa-plus"></i>
+                            Tạo mới phòng ban</a>
+                        </div>
+                      </div>
                         <table class="table table-hover table-responsive table-bordered js-copytextarea" cellpadding="0" cellspacing="0" border="0">
                             <thead>
                                 <tr>
@@ -195,7 +201,7 @@
                                     <th class="table-hoten">Họ và tên</th>
                                     <th>Ảnh đại diện</th>
                                     <th>Liên hệ</th>
-                                    <th class="table-status">Trạng thái</th>
+                                    <th>Số lượng nhân viên</th>
                                     <th class="table-act">Hành động</th>
                                 </tr>
                             </thead>
@@ -209,6 +215,9 @@
                               $result = mysqli_query($conn, $sql);
                               if($result->num_rows > 0) {
                                 while ($row = mysqli_fetch_assoc($result)) {
+                                  $sql_slnv = "select COUNT(maNV) as SL FROM nhanvien WHERE maPhongBan = '" . $row['maPhongBan'] ."'";
+                                  $query = mysqli_query($conn, $sql_slnv);
+                                  $slnv = mysqli_fetch_assoc($query);
                                   if($row['maTruongP'] != NULL) {
                                     echo "<tr>";
                                     echo "<td>". $row['maPhongBan']."</td>";
@@ -217,19 +226,19 @@
                                     echo "<td>". $row['tenNV']."</td>";
                                     echo '<td><img src="data:image;base64,'.base64_encode($row['avatar']) .'" alt="image" style="width:100px;height:100px;" ></td>';
                                     echo "<td>". $row['soDT']."</td>";
-                                    $rand = rand(1, 3);
-                                    if($rand == 1)
-                                      echo "<td class='text-center'><span class='table-status-emp status-off'>Không đi làm</span></td>";
-                                    else
-                                      echo "<td class='text-center'><span class='table-status-emp status-on'>Đang đi làm</span></td>";
-                                    echo "<td class='table-td-center'><button class='btn btn-primary btn-sm trash' type='button' title='Xóa'>
-                                        <i class='fas fa-trash-alt'></i>
+                                    echo "<td>". $slnv['SL'] ."</td>";
+                                    echo"<td class='table-td-center'>
+                                      <a class='btn-form' href='./chitiet_phongban.php?update=" .$row['maPhongBan'] ."'>
+                                        <button class='btn btn-primary btn-sm edit' type='button' title='Sửa'>
+                                          <i class='fas fa-edit'></i>
                                         </button>
-                                        <button class='btn btn-primary btn-sm edit' type='button' title='Sửa' id='show-emp'
-                                          data-toggle='modal' data-target='#ModalUP'><i class='fas fa-edit'></i>
+                                      </a>
+                                      <a class='btn-form' onclick='return confirm('Bạn có chắc muốn xóa bản ghi này?')' href='../Controller/delete_pb.php?delete=" .$row['maPhongBan'] ."'>
+                                        <button class='btn btn-primary btn-sm trash' type='button' title='Xóa'>
+                                          <i class='fas fa-trash-alt'></i>
                                         </button>
-                                      </td>";
-                                      echo "</tr>";
+                                      </a></td>";
+                                    echo "</tr>";
                                   }
                                   else {
                                     echo "<tr>";
@@ -239,14 +248,18 @@
                                     echo "<td>Trống</td>";
                                     echo "<td>Trống</td>";
                                     echo "<td>Trống</td>";
-                                    echo "<td class='text-center'><span class='table-status-emp status-off'>Không tồn tại</span></td>";
-                                    echo "<td class='table-td-center'><button class='btn btn-primary btn-sm trash' type='button' title='Xóa'>
-                                        <i class='fas fa-trash-alt'></i>
+                                    echo "<td>". $slnv['SL'] ."</td>";
+                                    echo"<td class='table-td-center'>
+                                      <a class='btn-form' href='./chitiet_phongban.php?update=" .$row['maPhongBan'] ."'>
+                                        <button class='btn btn-primary btn-sm edit' type='button' title='Sửa'>
+                                          <i class='fas fa-edit'></i>
                                         </button>
-                                        <button class='btn btn-primary btn-sm edit' type='button' title='Sửa' id='show-emp'
-                                          data-toggle='modal' data-target='#ModalUP'><i class='fas fa-edit'></i>
+                                      </a>
+                                      <a class='btn-form' href='../Controller/delete_pb.php?delete=" .$row['maPhongBan'] ."' onclick='return confirm('Bạn có chắc muốn xóa bản ghi này?')'>
+                                        <button class='btn btn-primary btn-sm trash' type='button' title='Xóa'>
+                                          <i class='fas fa-trash-alt'></i>
                                         </button>
-                                      </td>";
+                                      </a></td>";
                                     echo "</tr>";
                                   }
                                 }
@@ -261,7 +274,7 @@
       </div>
     </div>
 
-    <div class="modal js-modal close">
+    <!-- <div class="modal js-modal close">
       <div class="modal-container js-modal-container text-center">
           <div class="modal-title m-title">Cảnh báo</div>
           <div class="modal-content m-content">Bạn có chắc chắn muốn xóa bản ghi này?</div>
@@ -276,6 +289,6 @@
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
       crossorigin="anonymous"
-    ></script>
+    ></script> -->
   </body>
 </html>

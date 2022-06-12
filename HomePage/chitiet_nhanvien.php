@@ -238,7 +238,7 @@
                                     <p style="clear:both"></p>
                                   </div>
                                 </div>
-                                <div class="form-add-btn text-center">
+                                <div class="form-add-btn text-center col-md-12">
                                   <button name="add_emp" class="btn btn-save" type="submit">Chỉnh sửa</button>
                                   <a class="btn btn-cancel" href="./dsnhanvien.php">Hủy bỏ</a>
                                 </div>

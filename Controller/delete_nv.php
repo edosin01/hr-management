@@ -25,9 +25,13 @@
         
         // Xóa nhân viên
         $query = "delete from nhanvien where maNV = '$user_id'";
-        $result = mysqli_query($conn, $query);
-        header("location: ../HomePage/dsnhanvien.php");
-        
+        if(mysqli_query($conn, $query))
+        {
+            echo "<script>
+                alert('Xóa thành công');
+                window.location.href='../HomePage/dsnhanvien.php';
+                </script>";
+        }
     }
     else {
         echo "Xóa không thành công";

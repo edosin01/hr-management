@@ -1,6 +1,8 @@
 <?php
     include 'dbconfig.php';
-    $sql = "SELECT * FROM `nhanvien` INNER JOIN chucvu WHERE nhanvien.maChucVu = chucvu.maChucVu order by maNV;";
+    $sql = "SELECT * FROM `nhanvien` INNER JOIN chucvu ON nhanvien.maChucVu = chucvu.maChucVu
+        INNER JOIN phongban ON phongban.maPhongBan = nhanvien.maPhongBan
+        order by maNV;";
     $result = mysqli_query($conn, $sql);
 ?>
 
@@ -155,7 +157,7 @@
                                     <th class="table-address">Địa chỉ</th>
                                     <th>Liên hệ</th>
                                     <th>Vai trò</th>
-                                    <th class="table-status">Trạng thái</th>
+                                    <th>Phòng ban</th>
                                     <th class="table-act">Hành động</th>
                                 </tr>
                             </thead>
@@ -172,11 +174,7 @@
                                   echo "<td>". $row['thanhPho']."</td>";
                                   echo "<td>". $row['soDT']."</td>";
                                   echo "<td>". $row['tenChucVu']."</td>";
-                                  $rand = rand(1, 4);
-                                  if($rand == 1)
-                                    echo "<td class='text-center'><span class='table-status-emp status-off'>Không đi làm</span></td>";
-                                  else
-                                    echo "<td class='text-center'><span class='table-status-emp status-on'>Đang đi làm</span></td>";
+                                  echo "<td>". $row['tenPhongBan']."</td>";
 
                                   echo"<td class='table-td-center'>
                                     <a class='btn-form' href='chitiet_nhanvien.php?update=" .$row['maNV'] ."'>
@@ -204,6 +202,5 @@
         <!-- End: Danh sách nhân viên -->
       </div>
     </div>
-    <script src="./main.js"></script>
   </body>
 </html>
