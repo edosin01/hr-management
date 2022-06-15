@@ -143,14 +143,15 @@
                                 <th class="table-address">Địa chỉ</th>
                                 <th>Liên hệ</th>
                                 <th>Vai trò</th>
-                                <th class="table-status">Trạng thái</th>
+                                <th>Phòng ban</th>
                                 <th class="table-act">Hành động</th>
                               </tr>
                             </thead>
 
                             <tbody>
                             <?php
-                              $sql = "select * from (SELECT nhanvien.maNV, avatar, tenNV, thanhPho, soDT, chucvu.tenChucVu FROM nhanvien INNER JOIN chucvu WHERE nhanvien.maChucVu = chucvu.maChucVu order by maNV) as a where a.tenNV like '%" .$_filter ."%'";
+                              $sql = "select * from (SELECT nhanvien.maNV, avatar, tenNV, thanhPho, soDT, chucvu.tenChucVu, phongban.tenPhongBan FROM nhanvien INNER JOIN chucvu ON nhanvien.maChucVu = chucvu.maChucVu 
+                              INNER JOIN phongban ON phongban.maPhongBan = nhanvien.maPhongBan order by maNV) as a where a.tenNV like '%" .$_filter ."%'";
                               $result = $conn->query($sql);
                               $i = 0;
                               if($result->num_rows > 0) {
@@ -164,14 +165,8 @@
                                     <td><?php echo $row['thanhPho'] ?></td>
                                     <td><?php echo $row['soDT'] ?></td>
                                     <td><?php echo $row['tenChucVu'] ?></td>
-                                    <?php
-                                      $rand = rand(1, 4);
-                                      if($rand == 1)
-                                        echo "<td class='text-center'><span class='table-status-emp status-off'>Không đi làm</span></td>";
-                                      else
-                                        echo "<td class='text-center'><span class='table-status-emp status-on'>Đang đi làm</span></td>";
-                                    ?>
-                                    <td class='table-td-center'><a class="btn-form" href="update.php?id=<?php echo $row['maNV'] ?>">
+                                    <td><?php echo $row['tenPhongBan'] ?></td>
+                                    <td class='table-td-center'><a class="btn-form" href="./chitiet_nhanvien.php?update=<?php echo $row['maNV'] ?>">
                                       <button class='btn btn-primary btn-sm edit' type='button' title='Sửa'>
                                         <i class='fas fa-edit'></i>
                                       </button>

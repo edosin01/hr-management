@@ -265,9 +265,9 @@ span.num {
     min-width: 220px;
 }
 
-/* .table .table-status {
+.table .table-status {
     min-width: 135px;
-} */
+}
 .table .table-status-sal {
     min-width: 115px;
 }
@@ -293,7 +293,7 @@ span.num {
 /* End: Giao diện: danh sách nhân viên */
 
 /* Giao diện: Xác nhận xóa */
-/* .modal {
+.modal {
     position: fixed;
     bottom: 0;
     left: 0;
@@ -349,7 +349,7 @@ span.num {
         opacity: 1;
         transform: translateY(0);
     }
-} */
+}
 /* End: Giao diện: Xác nhận xóa */
 
 /* Giao diện: Chấm công */
@@ -362,7 +362,10 @@ span.num {
 
 #content .filter .btn-filter {
     margin-top: 29px;
-    
+}
+
+#content .insert-file {
+    justify-content: space-between;
 }
 
 #content .table .table-name {
@@ -377,6 +380,30 @@ span.num {
 #content .cc-info {
     font-size: 1.2rem;
     font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+}
+
+#content .cc-btn {
+    align-self: center;
+}
+
+.table-wrapper {
+    max-height: 450px;
+    max-width: 100%;
+    overflow: auto;
+    display:inline-block;
+}
+
+.table .table-sticky {
+    background-color: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.table .table-sum {
+    min-width: 120px;
 }
 /* End: Giao diện: Chấm công */
 
@@ -396,6 +423,10 @@ span.num {
 #content .form-add .form-add-btn {
     font-weight: 600;   
     font-size: 16px;
+}
+
+.modal .modal-btn {
+    padding-bottom: 20px;
 }
 
 #content .form-add .btn-save,

@@ -138,9 +138,9 @@
                                 <div class="form-group col-md-4">
                                   <label class="control-label">Giới tính</label>
                                   <select name="gender" class="form-control" id="exampleSelect2" required="">
-                                    <option>-- Chọn giới tính --</option>
-                                    <option>Nam</option>
-                                    <option>Nữ</option>
+                                    <option value="blank">-- Chọn giới tính --</option>
+                                    <option value=1>Nam</option>
+                                    <option value=0>Nữ</option>
                                   </select>
                                 </div>
                                 <div class="form-group col-md-4">

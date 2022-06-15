@@ -147,8 +147,8 @@
                 <div class="row" id="ds-table">
                     <div class="col-sm-12">
                     <span class="table-title">Danh sách nhân viên</span>
-                        <table class="table table-hover table-responsive table-bordered js-copytextarea" cellpadding="0" cellspacing="0" border="0">
-                            <thead>
+                        <table class="table table-hover table-responsive table-bordered table-wrapper js-copytextarea" cellpadding="0" cellspacing="0" border="0">
+                            <thead class="table-sticky">
                                 <tr>
                                     <th>STT <i class="bi bi-sort-down"></i></th>
                                     <th>Mã nhân viên</th>
@@ -177,7 +177,7 @@
                                   echo "<td>". $row['tenPhongBan']."</td>";
 
                                   echo"<td class='table-td-center'>
-                                    <a class='btn-form' href='chitiet_nhanvien.php?update=" .$row['maNV'] ."'>
+                                    <a class='btn-form' href='./chitiet_nhanvien.php?update=" .$row['maNV'] ."'>
                                       <button class='btn btn-primary btn-sm edit' type='button' title='Sửa'>
                                         <i class='fas fa-edit'></i>
                                       </button>
@@ -202,5 +202,6 @@
         <!-- End: Danh sách nhân viên -->
       </div>
     </div>
+    <script src="./main.js"></script>
   </body>
 </html>

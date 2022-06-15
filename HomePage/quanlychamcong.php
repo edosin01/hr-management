@@ -15,7 +15,7 @@
     <link rel="icon" href="../assets/img/metaverse_logo.png" type="image/x-icon">
     <link rel="stylesheet" href="../assets/font/bootstrap.css" />
     <link rel="stylesheet" href="../assets/font/bootstrap-icons.css" />
-    <link rel="stylesheet" href="./style2.css" />
+    <link rel="stylesheet" href="./style2.css"/>
     <link rel="stylesheet" href="./responsive.css">
   </head>
   <body>
@@ -141,129 +141,103 @@
             <div class="row filter">
               <div class="col-sm-12">
                 <div class="cc-info">
-                  Bảng chấm công nhân viên <br>
-                  Thời gian: <?php echo date("m/Y") ?>
-                  <div class="dataTables_length" id="sampleTable_length">
-                    <label>Show
-                      <select name="sampleTable_length" aria-controls="sampleTable" class="form-control-sm">
-                        <option value="10">10</option>
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                      </select>
-                      entries</label>
+                  <div class="cc-in4">
+                    Bảng chấm công nhân viên <br>
+                    Today: <?php echo date("d/m/Y") ?>
                   </div>
+                  <button class="btn btn-info cc-btn">Chấm công</button>
                 </div>
-                <table class="table bgwhite table-striped table-responsive table-hover table-bordered js-copytextarea" cellpadding="0" cellspacing="0" border="0">
-                  <thead>
+                <div>
+                  <form class="insert-file d-flex" method="post" enctype="multipart/form-data">
+                    <input type="file" name="file"/>
+                    <input class="btn btn-info cc-btn" type="submit" value="Xuất"/>
+                  </form>
+                </div>
+                <table class="table bgwhite table-striped table-responsive table-hover table-bordered table-wrapper js-copytextarea" cellpadding="0" cellspacing="0" border="0">
+                  <thead class="table-sticky">
                     <tr>
                       <th>ID</th>
                       <th class="table-name">Họ và tên nhân viên</th>
                       <?php
-                        for($i = 1; $i <= date ("d"); $i++) {
+                        for($i = 1; $i <= 31; $i++) {
                           if($i < 10)
                             echo "<th>0" .$i ."</th>";
                           else
                             echo "<th>" .$i ."</th>";
                         }
-                        echo "<th>Tổng ngày đi làm</th>";
+                        echo "<th  class='table-sum'>Tổng ngày đi làm</th>";
                       ?>
                     </tr>
                   </thead>
                   <tbody>
                   <?php
-                      $sql = "select * from nhanvien order by maNV";
-                      $result = mysqli_query($conn, $sql);
-                      if($result->num_rows > 0) {
-                        while ($row = mysqli_fetch_array($result)) {
-                          echo "<tr>";
-                          echo "<td>" .$row['maNV'] ."</td>";
-                          echo "<td class='table-name'>" .$row['tenNV'] ."</td>";
-                          $count = 0;
-                          for($i = 1; $i <= date ("d"); $i++) {
-                              $rand = rand(1, 4);
-                              if($rand == 1)
-                                echo "<td style='color: #f00;'>v</td>";
+                      use Shuchkin\SimpleXLSX;
+                      require_once '../src/SimpleXLSX.php';
+                      $data = array(); // Danh sách chấm công
+                      $row = 0;
+                      if (isset($_FILES['file'])) {
+                        if ($xlsx = SimpleXLSX::parse($_FILES['file']['tmp_name']))
+                        {
+                          $dim = $xlsx->dimension();
+                          $cols = $dim[0];
+                          
+                          foreach ($xlsx->readRows() as $k => $r) {
+                            if ($k == 0) continue; // skip first row
+                            
+                            echo '<tr>';
+                            for ($i = 0; $i < $cols; $i++) {
+                              if(isset($r[$i])) {
+                                if($r[$i] == "v")
+                                  echo '<td style="color: red; font-weight: bold;">' . $r[$i]. '</td>';
+                                else
+                                  echo '<td>' . $r[$i]. '</td>';
+                                $data[$row][$i] = $r[$i];
+                              }
                               else {
-                                echo "<td>x</td>";
-                                $count++;
+                                echo '<td>&nbsp</td>';
+                                $data[$row][$i] = '&nbsp';
                               }
                             }
-                          echo "<td class='table-sum'>" .$count ."</td>";
-                          echo "</tr>";
+                            $row++;
+                            echo '</tr>';
+                          }
+                        }
+                        else {
+                          echo SimpleXLSX::parseError();
                         }
                       }
-                    ?>
-                    <!-- <tr>
-                      <td class="table-name">Trần Đức Anh</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>v</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>v</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>v</td>
-                      <td>v</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td class="table-sum">27</td>
-                    </tr>
-                    <tr>
-                      <td class="table-name">Trần Đức Anh</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>v</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>v</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>v</td>
-                      <td>v</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td>x</td>
-                      <td class="table-sum">27</td>
-                    </tr> -->
+                      else {
+                        if ($xlsx = SimpleXLSX::parse('../assets/SourceFile/chamcong_t6.xlsx'))
+                        {
+                          $dim = $xlsx->dimension();
+                          $cols = $dim[0];
+                          
+                          foreach ($xlsx->readRows() as $k => $r) {
+                            if ($k == 0) continue; // skip first row
+                            
+                            echo '<tr>';
+                            for ($i = 0; $i < $cols; $i++) {
+                              if(isset($r[$i])) {
+                                if($r[$i] == "v")
+                                  echo '<td style="color: red; font-weight: bold;">' . $r[$i]. '</td>';
+                                else
+                                  echo '<td>' . $r[$i]. '</td>';
+                                $data[$row][$i] = $r[$i];
+                              }
+                              else {
+                                echo '<td>&nbsp</td>';
+                                $data[$row][$i] = '&nbsp';
+                              }
+                            }
+                            $row++;
+                            echo '</tr>';
+                          }
+                        }
+                        else {
+                          echo SimpleXLSX::parseError();
+                        }
+                      }
+                  ?>
                   </tbody>
                 </table>
               </div>
@@ -272,6 +246,91 @@
         </div>
       </div>
     </div>
+    <!-- <div class="modal js-modal close">
+      <form method="POST" enctype="multipart/form-data">
+        <div class="modal-container js-modal-container text-center">
+            <div class="modal-title m-title">Chấm công ngày <?php echo date("d/m/Y") ?></div>
+            <div class="modal-content m-content" data-spy="scroll">
+              <table class="table bgwhite table-striped table-responsive table-hover table-bordered table-wrapper js-copytextarea" cellpadding="0" cellspacing="0" border="0">
+                <thead class="table-sticky">
+                  <tr>
+                    <th>Mã NV</th>
+                    <th class="table-name">Họ và tên nhân viên</th>
+                    <th>Tình trạng đi làm</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php
+                    $sql = "SELECT maNV, tenNV FROM nhanvien";
+                    $query = mysqli_query($conn, $sql);
+                    $date = date('d');
+                    if($query->num_rows > 0) {
+                      $r = 0;
+                      while($row = mysqli_fetch_array($query)) {
+                  ?>
+                  <tr>
+                    <td><?php echo $row['maNV']?></td>
+                    <td><?php echo $row['tenNV']?></td>
+                    <td>
+                      <?php 
+                        if($data[$r][$date+1] == "v") {
+                          echo "<input class='mg6' type='radio' name='status" . $r."' value='x'>Đi làm</input>";
+                          echo "&nbsp&nbsp&nbsp";
+                          echo "<input class='mg6' type='radio' name='status" . $r."' value='v' checked='checked'>Vắng mặt</input>";
+                        }
+                        else {
+                          echo "<input class='mg6' type='radio' name='status" . $r."' value='x' checked='checked'>Đi làm</input>";
+                          echo "&nbsp&nbsp&nbsp";
+                          echo "<input class='mg6' type='radio' name='status" . $r."' value='v'>Vắng mặt</input>";
+                        }
+                      ?>
+                    </td>
+                  </tr>
+                  <?php
+                        $r++;
+                      }
+                    }
+                  ?>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-btn">
+              <input name="save-btn" class="btn btn-save" type="submit" value="Lưu lại">
+              <input name="cancel-btn" class="btn btn-cancel" type="button" value="Hủy bỏ">
+            </div>
+        </div>
+      </form>
+    </div> -->
+    <!-- <?php
+      if(array_key_exists('save-btn', $_POST)) {
+        require('../src/PHPExcel.php');
+        ghi_file($data);
+        
+      }
+      function ghi_file($data) {
+        $phpExcel = PHPExcel_IOFactory::load('../assets/SourceFile/chamcong_t6.xlsx');
+        // Get the first sheet
+        $sheet = $phpExcel ->getActiveSheet();
+        
+        $row = $sheet->getHighestRow();
+        $date = date('d');
+        for($vt = 0; $vt < $row-1; $vt++) {
+          $vari = 'status'.(string)$vt;
+          // row tính từ 1, col tính từ 0
+          $sheet->setCellValueByColumnAndRow($date+1, $vt+2, $_POST[$vari]);
+          $data[$vt][$date+1] = $_POST[$vari];
+        }
+        $writer = PHPExcel_IOFactory::createWriter($phpExcel, "Excel2007");
+        $writer->setPreCalculateFormulas(true);
+        // Save the spreadsheet
+        
+        $writer->save('../assets/SourceFile/chamcong_t6.xlsx');
+        echo "<script>
+            window.location.href='./quanlychamcong.php';
+            alert('Cập nhật thành công');
+        </script>";
+      }
+    ?> -->
     <script src="./main.js"></script>
   </body>
 </html>

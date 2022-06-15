@@ -147,15 +147,15 @@
                                 <div class="form-group col-md-4">
                                   <label class="control-label">Giới tính</label>
                                   <select name="gender" class="form-control" id="exampleSelect2" required="">
-                                    <option>-- Chọn giới tính --</option>
+                                    <option value="blank">-- Chọn giới tính --</option>
                                     <?php
                                         if($row['gioiTinh'] == 1) {
-                                            echo"<option selected='selected'>Nam</option>";
-                                            echo "<option>Nữ</option>";
+                                            echo"<option selected='selected' value=1>Nam</option>";
+                                            echo "<option value=0>Nữ</option>";
                                         }
                                         else {
-                                            echo "<option>Nam</option>";
-                                            echo "<option selected='selected'>Nữ</option>";
+                                            echo "<option value=1>Nam</option>";
+                                            echo "<option selected='selected' value=0>Nữ</option>";
                                         }
                                     ?>
                                   </select>

@@ -1,15 +1,25 @@
 <?php
     include '../HomePage/dbconfig.php';
     $id = addslashes($_POST['id']);
+
+    // Kiểm tra trùng mã
+    $sql = "SELECT maNV from nhanvien";
+    $query = mysqli_query($conn, $sql);
+    if($query->num_rows > 0) {
+        while($ds_id = mysqli_fetch_array($query)) {
+            if(strcasecmp($ds_id['maNV'], $id) == 0) {
+                echo "<script>
+                        alert('Mã nhân viên đã tồn tại');
+                        window.location.href='../HomePage/form_themnv.php';
+                    </script>";
+            }
+        }
+    }
+
     $name = addslashes($_POST['name']);
     $address = addslashes($_POST['address']);
     
     $gender = addslashes($_POST['gender']);
-    if($gender == "Nam")
-        $gender = addslashes(1);
-    else
-        $gender = addslashes(0);
-    
     $email = addslashes($_POST['email']);
     $phone = addslashes($_POST['phone']);
     
@@ -40,7 +50,7 @@
             $query = mysqli_query($conn, $sql);
         }
         $sql = "insert into nhanvien (maNV, tenNV, gioiTinh, avatar, thanhPho, soDT, email, maPhongBan,
-            maChucVu, bacLuong) values ('$id', '$name', '$gender', '$avatar', '$address', '$phone',
+            maChucVu, bacLuong) values ('$id', '$name', $gender, '$avatar', '$address', '$phone',
             '$email', '$department_id', '$job_id', '$salary')";
         if (mysqli_query($conn, $sql)) {
             header("Location: ../HomePage/dsnhanvien.php");

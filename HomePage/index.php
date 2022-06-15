@@ -192,8 +192,8 @@
                             Tạo mới phòng ban</a>
                         </div>
                       </div>
-                        <table class="table table-hover table-responsive table-bordered js-copytextarea" cellpadding="0" cellspacing="0" border="0">
-                            <thead>
+                        <table class="table table-hover table-responsive table-wrapper table-bordered js-copytextarea" cellpadding="0" cellspacing="0" border="0">
+                            <thead class="table-sticky">
                                 <tr>
                                     <th>Mã phòng</th>
                                     <th>Tên phòng ban</th>
@@ -273,22 +273,6 @@
         </div>
       </div>
     </div>
-
-    <!-- <div class="modal js-modal close">
-      <div class="modal-container js-modal-container text-center">
-          <div class="modal-title m-title">Cảnh báo</div>
-          <div class="modal-content m-content">Bạn có chắc chắn muốn xóa bản ghi này?</div>
-          <div class="modal-btn">
-            <button class="btn btn-save" type="button">Đồng ý</button>
-            <button class="btn btn-cancel" type="button">Hủy bỏ</button>
-          </div>
-      </div>
-    </div>
-    <script src="main.js"></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-      crossorigin="anonymous"
-    ></script> -->
+    <script src="./main.js"></script>
   </body>
 </html>
