@@ -1,5 +1,15 @@
 <?php
   include 'dbconfig.php';
+  $mon = date('m');
+  $year = date('Y');
+  $default_file = '../assets/SourceFile/chamcong_t' .$mon .'_' .$year .'.xlsx';
+  $d_file = 'chamcong_t' .$mon .'_' .$year .'.xlsx';
+  $check_file = true;
+  if (isset($_FILES['file'])) {
+    if($_FILES['file']['name'] != $d_file) {
+      $check_file = false;
+    }
+  }
 ?>
 
 <!DOCTYPE html>
@@ -107,7 +117,7 @@
               <div class="input-group mb-3">
                 <input
                   id="fil-time"
-                  type="text"
+                  type="date"
                   class="form-control"
                   aria-label="Sizing example input"
                   aria-describedby="inputGroup-sizing-default"
@@ -145,7 +155,7 @@
                     Bảng chấm công nhân viên <br>
                     Today: <?php echo date("d/m/Y") ?>
                   </div>
-                  <button class="btn btn-info cc-btn">Chấm công</button>
+                  <button class="btn btn-info cc-btn" <?php if ($check_file == false){ ?> disabled <?php   } ?> >Chấm công</button>
                 </div>
                 <div>
                   <form class="insert-file d-flex" method="post" enctype="multipart/form-data">
@@ -175,9 +185,12 @@
                       require_once '../src/SimpleXLSX.php';
                       $data = array(); // Danh sách chấm công
                       $row = 0;
-                      if (isset($_FILES['file'])) {
+                      if (isset($_FILES['file'])) { // Chọn bảng chấm công bất kì
                         if ($xlsx = SimpleXLSX::parse($_FILES['file']['tmp_name']))
                         {
+                          if($_FILES['file']['name'] != $d_file) {
+                            $check_file = false;
+                          }
                           $dim = $xlsx->dimension();
                           $cols = $dim[0];
                           
@@ -187,7 +200,7 @@
                             echo '<tr>';
                             for ($i = 0; $i < $cols; $i++) {
                               if(isset($r[$i])) {
-                                if($r[$i] == "v")
+                                if($r[$i] == "v" || $r[$i] == "CN")
                                   echo '<td style="color: red; font-weight: bold;">' . $r[$i]. '</td>';
                                 else
                                   echo '<td>' . $r[$i]. '</td>';
@@ -206,8 +219,8 @@
                           echo SimpleXLSX::parseError();
                         }
                       }
-                      else {
-                        if ($xlsx = SimpleXLSX::parse('../assets/SourceFile/chamcong_t6.xlsx'))
+                      else { // Hiện default, mỗi tháng một bảng chấm công mới
+                        if ($xlsx = SimpleXLSX::parse($default_file))
                         {
                           $dim = $xlsx->dimension();
                           $cols = $dim[0];
@@ -218,7 +231,7 @@
                             echo '<tr>';
                             for ($i = 0; $i < $cols; $i++) {
                               if(isset($r[$i])) {
-                                if($r[$i] == "v")
+                                if($r[$i] == "v" || $r[$i] == "CN")
                                   echo '<td style="color: red; font-weight: bold;">' . $r[$i]. '</td>';
                                 else
                                   echo '<td>' . $r[$i]. '</td>';
@@ -246,7 +259,7 @@
         </div>
       </div>
     </div>
-    <!-- <div class="modal js-modal close">
+    <div class="modal js-modal close">
       <form method="POST" enctype="multipart/form-data">
         <div class="modal-container js-modal-container text-center">
             <div class="modal-title m-title">Chấm công ngày <?php echo date("d/m/Y") ?></div>
@@ -254,7 +267,7 @@
               <table class="table bgwhite table-striped table-responsive table-hover table-bordered table-wrapper js-copytextarea" cellpadding="0" cellspacing="0" border="0">
                 <thead class="table-sticky">
                   <tr>
-                    <th>Mã NV</th>
+                    <th>ID</th>
                     <th class="table-name">Họ và tên nhân viên</th>
                     <th>Tình trạng đi làm</th>
                   </tr>
@@ -272,16 +285,31 @@
                     <td><?php echo $row['maNV']?></td>
                     <td><?php echo $row['tenNV']?></td>
                     <td>
-                      <?php 
+                    
+                      <?php
+                        $today = date('Y-m-d');
+                        $newDate = date('l', strtotime($today));
+                        
                         if($data[$r][$date+1] == "v") {
                           echo "<input class='mg6' type='radio' name='status" . $r."' value='x'>Đi làm</input>";
                           echo "&nbsp&nbsp&nbsp";
                           echo "<input class='mg6' type='radio' name='status" . $r."' value='v' checked='checked'>Vắng mặt</input>";
+                          echo "&nbsp&nbsp&nbsp";
+                          echo "<input class='mg6' type='radio' name='status" . $r."' value='CN'>Chủ nhật</input>";
+                        }
+                        else if($newDate == "Sunday") {
+                          echo "<input class='mg6' type='radio' name='status" . $r."' value='x'>Đi làm</input>";
+                          echo "&nbsp&nbsp&nbsp";
+                          echo "<input class='mg6' type='radio' name='status" . $r."' value='v'>Vắng mặt</input>";
+                          echo "&nbsp&nbsp&nbsp";
+                          echo "<input class='mg6' type='radio' name='status" . $r."' value='CN' checked='checked'>Chủ nhật</input>";
                         }
                         else {
                           echo "<input class='mg6' type='radio' name='status" . $r."' value='x' checked='checked'>Đi làm</input>";
                           echo "&nbsp&nbsp&nbsp";
                           echo "<input class='mg6' type='radio' name='status" . $r."' value='v'>Vắng mặt</input>";
+                          echo "&nbsp&nbsp&nbsp";
+                          echo "<input class='mg6' type='radio' name='status" . $r."' value='CN'>Chủ nhật</input>";
                         }
                       ?>
                     </td>
@@ -300,15 +328,17 @@
             </div>
         </div>
       </form>
-    </div> -->
-    <!-- <?php
+    </div>
+    <?php
       if(array_key_exists('save-btn', $_POST)) {
         require('../src/PHPExcel.php');
         ghi_file($data);
         
       }
       function ghi_file($data) {
-        $phpExcel = PHPExcel_IOFactory::load('../assets/SourceFile/chamcong_t6.xlsx');
+        $mon = date('m');
+        $year = date('Y');
+        $phpExcel = PHPExcel_IOFactory::load('../assets/SourceFile/chamcong_t' .$mon .'_' .$year .'.xlsx');
         // Get the first sheet
         $sheet = $phpExcel ->getActiveSheet();
         
@@ -324,13 +354,13 @@
         $writer->setPreCalculateFormulas(true);
         // Save the spreadsheet
         
-        $writer->save('../assets/SourceFile/chamcong_t6.xlsx');
+        $writer->save('../assets/SourceFile/chamcong_t' .$mon .'_' .$year .'.xlsx');
         echo "<script>
             window.location.href='./quanlychamcong.php';
             alert('Cập nhật thành công');
         </script>";
       }
-    ?> -->
+    ?>
     <script src="./main.js"></script>
   </body>
 </html>

@@ -23,8 +23,6 @@
     <link rel="stylesheet" href="../assets/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="./style2.css"/>
     <link rel="stylesheet" href="./responsive.css">
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
-    
   </head>
 
   <body>
@@ -193,58 +191,7 @@
                 </div>
             </div>
         </div>
-              <!-- <div class="list-nv">
-                <div class="container-nv">
-                  <h1 style="text-align: center ;">Kết quả trả về cho từ khoá "<?php echo $_filter; ?>"</h1>
-                  <table class="table table-hover table-responsive">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>ID</th>
-                            <th>Ảnh</th>
-                            <th>Tên NV</th>
-                            <th>Địa Chỉ</th>
-                            <th>Số ĐT</th>
-                            <th>Chức vụ</th>
-                            <th>Trạng thái</th>
-                            <th>Hành động</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                      <?php
-                        $sql = "select * from (SELECT nhanvien.maNV, avatar, tenNV, thanhPho, soDT, chucvu.tenChucVu FROM nhanvien INNER JOIN chucvu WHERE nhanvien.maChucVu = chucvu.maChucVu order by maNV) as a where a.tenNV like '%" .$_filter ."%'";
-                        $result = $conn->query($sql);
-                        if($result->num_rows > 0) {
-                          while($row = $result->fetch_assoc()){
-                            ?>
-                            <tr>
-                              <td><?php echo $row['maNV'] ?></td>
-                              <td><?php echo '<img src="data:image;base64,'.base64_encode($row['avatar']) .'" alt="image" style="width:100px;height:100px;" >'; ?></td>
-                              <td><?php echo $row['tenNV'] ?></td>
-                              <td><?php echo $row['thanhPho'] ?></td>
-                              <td><?php echo $row['soDT'] ?></td>
-                              <td><?php echo $row['tenChucVu'] ?></td>
-                              <td class='text-center'><span class='table-status-emp status-on'>Đang đi làm</span></td>
-                              <td><a class="btn btn-info" href="update.php?id= <?php echo $row['maNV'] ?>">Edit</a>
-                              &nbsp;
-                              <a class="btn btn-danger"href="delete.php?id=<?php echo $row['maNV'] ?>">Delete</a></td>
-                            </tr>
-                            <?php
-                          }
-                        } 
-                        else 
-                          {
-                      ?>
-                      <tr>
-                        <td colspan="8">Không có kết quả tìm kiếm nào trùng từ khoá "<?php echo $_filter; ?>" </td>
-                      </tr>
-                      <?php }?>
-                    </tbody>
-                  </table>
-                </div>
-              </div> -->
       </div>
     </div>
-    
-        
   </body>
 </html>

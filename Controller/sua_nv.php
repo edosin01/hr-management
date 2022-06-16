@@ -33,26 +33,23 @@
     $leader_de = addslashes($res['maTruongP']); // Kiểm tra xem phòng ban này có trưởng phòng chưa
     
     $salary = addslashes($_POST['salary']);
+
     if(!empty($_FILES['ImageUpload']['tmp_name']) && file_exists($_FILES['ImageUpload']['tmp_name']))
         $avatar = addslashes(file_get_contents($_FILES['ImageUpload']['tmp_name']));
     else
         $avatar = addslashes($old_data['avatar']);
 
+    $check = true;
     if($old_data['tenChucVu'] != "Trưởng phòng") {
         if($job == "Trưởng phòng" && $leader_de != NULL) { // chức vụ mới là trưởng phòng mà phòng có tp rồi
             echo "Phòng ban này đã tồn tại trưởng phòng";
+            $check = false;
         }
         else { // chức vụ mới là trưởng phòng mà phòng chưa có tp
             if($job == "Trưởng phòng" && $leader_de == NULL) {
                 $sql = "UPDATE phongban SET maTruongP = '$id' where maPhongBan = '$department_id'";
                 $query = mysqli_query($conn, $sql);
             }
-            $sql = "UPDATE nhanvien SET tenNV = '$name', gioiTinh = $gender, avatar = '$avatar', thanhPho = '$address',
-            soDT = '$phone', email = '$email', maPhongBan = '$department_id', maChucVu = '$job_id', bacLuong = '$salary' WHERE maNV = '$id'";
-            if(mysqli_query($conn, $sql))
-                header("Location: ../HomePage/dsnhanvien.php");
-            else
-                echo "Lỗi: " . $sql . "<br>" . mysqli_error($conn);
         }
     }
     else {
@@ -60,28 +57,13 @@
             // Chuyển phòng ban cũ về phòng trống
             $sql = "UPDATE phongban SET maTruongP = NULL where maPhongBan = '" .$old_data['maPhongBan'] ."'";
             $query = mysqli_query($conn, $sql);
-
-            // Sửa thông tin nhân viên
-            $sql = "UPDATE nhanvien SET tenNV = '$name', gioiTinh = $gender, avatar = '$avatar', thanhPho = '$address',
-            soDT = '$phone', email = '$email', maPhongBan = '$department_id', maChucVu = '$job_id', bacLuong = '$salary' WHERE maNV = '$id'";
-            
-            if(mysqli_query($conn, $sql))
-                header("Location: ../HomePage/dsnhanvien.php");
-            else
-                echo "Lỗi: " . $sql . "<br>" . mysqli_error($conn);
         }
-        else { // Nếu vẫn là trưởng phòng nhưng là phòng cũ
-            if($old_data['maPhongBan'] == $department_id) {
-                $sql = "UPDATE nhanvien SET tenNV = '$name', gioiTinh = $gender, avatar = '$avatar', thanhPho = '$address',
-                soDT = '$phone', email = '$email', maPhongBan = '$department_id', maChucVu = '$job_id', bacLuong = '$salary' WHERE maNV = '$id'";
-                if(mysqli_query($conn, $sql))
-                    header("Location: ../HomePage/dsnhanvien.php");
-                else
-                    echo "Lỗi: " . $sql . "<br>" . mysqli_error($conn);
-            }
-            else { // Nếu vẫn là trưởng phòng nhưng là phòng ban khác
-                if($leader_de != NULL)
+        else {
+            if($old_data['maPhongBan'] != $department_id) { // Nếu vẫn là trưởng phòng nhưng là phòng ban khác
+                if($leader_de != NULL) {
                     echo "Phòng ban này đã tồn tại trưởng phòng";
+                    $check = false;
+                }
                 else {
                     // Chuyển phòng ban cũ về phòng trống
                     $sql = "UPDATE phongban SET maTruongP = NULL where maPhongBan = '" .$old_data['maPhongBan'] ."'";
@@ -90,16 +72,47 @@
                     // Thay đổi trưởng phòng trong phòng ban mới
                     $sql = "UPDATE phongban SET maTruongP = '$id' where maPhongBan = '$department_id'";
                     $query = mysqli_query($conn, $sql);
-
-                    // Sửa thông tin nhân viên
-                    $sql = "UPDATE nhanvien SET tenNV = '$name', gioiTinh = $gender, avatar = '$avatar', thanhPho = '$address',
-                    soDT = '$phone', email = '$email', maPhongBan = '$department_id', maChucVu = '$job_id', bacLuong = '$salary' WHERE maNV = '$id'";
-                    if(mysqli_query($conn, $sql))
-                        header("Location: ../HomePage/dsnhanvien.php");
-                    else
-                        echo "Lỗi: " . $sql . "<br>" . mysqli_error($conn);
                 }
             }
         }
+    }
+    
+    if($check == true) {
+        // Sửa thông tin nhân viên
+        $sql = "UPDATE nhanvien SET tenNV = '$name', gioiTinh = $gender, avatar = '$avatar', thanhPho = '$address',
+        soDT = '$phone', email = '$email', maPhongBan = '$department_id', maChucVu = '$job_id', bacLuong = '$salary' WHERE maNV = '$id'";
+
+        if(mysqli_query($conn, $sql)) {
+            if($old_data['tenNV'] != $name) {
+                require('../src/PHPExcel.php');
+                $mon = date('m');
+                $year = date('Y');
+                $phpExcel = PHPExcel_IOFactory::load('../assets/SourceFile/chamcong_t' .$mon .'_' .$year .'.xlsx');
+                // Get the first sheet
+                $sheet = $phpExcel ->getActiveSheet();
+    
+                $column = "A";
+                $lastRow = $sheet->getHighestRow();
+                for ($row = 1; $row <= $lastRow; $row++) {
+                    $cell = $sheet->getCell($column.$row)->getValue();
+                    if($cell == $id) {
+                        $sheet->setCellValue("B".$row, $name);
+                        break;
+                    }
+                }
+    
+                $writer = PHPExcel_IOFactory::createWriter($phpExcel, "Excel2007");
+                $writer->setPreCalculateFormulas(true);
+                // Save the spreadsheet
+                
+                $writer->save('../assets/SourceFile/chamcong_t' .$mon .'_' .$year .'.xlsx');
+            }
+            echo "<script>
+                window.location.href='../HomePage/dsnhanvien.php';
+                alert('Sửa thông tin nhân sự thành công');
+            </script>";
+        }
+        else
+            echo "Lỗi: " . $sql . "<br>" . mysqli_error($conn);
     }
 ?>

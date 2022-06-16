@@ -28,13 +28,15 @@
             </script>";
     }
     else {
+        // Phòng ban là phòng trống
         if($old_data['maTruongP'] != NULL) {
             // chuyển trưởng phòng cũ về làm nhân viên
             $sql = "UPDATE nhanvien SET maChucVu = (SELECT maChucVu FROM chucvu where tenChucVu = 'Nhân viên') WHERE maNV = '" .$old_data['maTruongP'] ."'";
             $query = mysqli_query($conn, $sql);
 
+            // Nếu có chọn trưởng phòng mới
             if($leader != NULL) { // chuyển nhân viên mới lên làm trưởng phòng
-                $sql = "UPDATE nhanvien SET maChucVu = (SELECT maChucVu FROM chucvu where tenChucVu = 'Trưởng phòng') WHERE maNV = '$leader'";
+                $sql = "UPDATE nhanvien SET maChucVu = (SELECT maChucVu FROM chucvu where tenChucVu = 'Trưởng phòng'), maPhongBan ='$id' WHERE maNV = '$leader'";
                 $query = mysqli_query($conn, $sql);
 
                 $sql = "UPDATE phongban SET tenPhongBan = '$name', soDienThoai = '$phone', maTruongP = '$leader' WHERE maPhongBan = '$id'";
@@ -51,6 +53,7 @@
                         </script>";
                 }
             }
+            // Trưởng phòng mới = NULL
             else {
                 $sql = "UPDATE phongban SET tenPhongBan = '$name', soDienThoai = '$phone', maTruongP = NULL WHERE maPhongBan = '$id'";
                 if(mysqli_query($conn, $sql)) {
@@ -67,6 +70,7 @@
                 }
             }
         }
+        // Phòng cũ đã có người
         else {
             if($leader == NULL) {
                 $sql = "UPDATE phongban SET tenPhongBan = '$name', soDienThoai = '$phone', maTruongP = NULL WHERE maPhongBan = '$id'";
@@ -84,7 +88,7 @@
                 }
             }
             else { // chuyển nhân viên mới lên làm trưởng phòng
-                $sql = "UPDATE nhanvien SET maChucVu = (SELECT maChucVu FROM chucvu where tenChucVu = 'Trưởng phòng') WHERE maNV = '$leader'";
+                $sql = "UPDATE nhanvien SET maChucVu = (SELECT maChucVu FROM chucvu where tenChucVu = 'Trưởng phòng'), maPhongBan ='$id' WHERE maNV = '$leader'";
                 $query = mysqli_query($conn, $sql);
 
                 $sql = "UPDATE phongban SET tenPhongBan = '$name', soDienThoai = '$phone', maTruongP = '$leader' WHERE maPhongBan = '$id'";

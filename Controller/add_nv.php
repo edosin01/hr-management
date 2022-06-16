@@ -53,7 +53,29 @@
             maChucVu, bacLuong) values ('$id', '$name', $gender, '$avatar', '$address', '$phone',
             '$email', '$department_id', '$job_id', '$salary')";
         if (mysqli_query($conn, $sql)) {
-            header("Location: ../HomePage/dsnhanvien.php");
+            require('../src/PHPExcel.php');
+            $mon = date('m');
+            $year = date('Y');
+            $phpExcel = PHPExcel_IOFactory::load('../assets/SourceFile/chamcong_t' .$mon .'_' .$year .'.xlsx');
+            // Get the first sheet
+            $sheet = $phpExcel ->getActiveSheet();
+            
+            $row = $sheet->getHighestRow();
+            $sheet->setCellValueByColumnAndRow(0, $row+1, $id);
+            $sheet->setCellValueByColumnAndRow(1, $row+1, $name);
+            $formula_cell = "AH".$row+1;
+            $formula = "=COUNTIF(C" .$row+1 .":AG" .$row+1 .", \"x\")";
+            $sheet->setCellValue($formula_cell, $formula);
+
+            $writer = PHPExcel_IOFactory::createWriter($phpExcel, "Excel2007");
+            $writer->setPreCalculateFormulas(true);
+            // Save the spreadsheet
+            
+            $writer->save('../assets/SourceFile/chamcong_t' .$mon .'_' .$year .'.xlsx');
+            echo "<script>
+                window.location.href='../HomePage/dsnhanvien.php';
+                alert('Thêm nhân viên mới thành công');
+            </script>";
         }
         else {
             echo "Lỗi: " . $sql . "<br>" . mysqli_error($conn);

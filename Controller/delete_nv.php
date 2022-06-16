@@ -27,6 +27,28 @@
         $query = "delete from nhanvien where maNV = '$user_id'";
         if(mysqli_query($conn, $query))
         {
+            require('../src/PHPExcel.php');
+            $mon = date('m');
+            $year = date('Y');
+            $phpExcel = PHPExcel_IOFactory::load('../assets/SourceFile/chamcong_t' .$mon .'_' .$year .'.xlsx');
+            // Get the first sheet
+            $sheet = $phpExcel ->getActiveSheet();
+
+            $column = "A";
+            $lastRow = $sheet->getHighestRow();
+            for ($row = 1; $row <= $lastRow; $row++) {
+                $cell = $sheet->getCell($column.$row)->getValue();
+                if($cell == $user_id) {
+                    $sheet->removeRow($row);
+                    break;
+                }
+            }
+
+            $writer = PHPExcel_IOFactory::createWriter($phpExcel, "Excel2007");
+            $writer->setPreCalculateFormulas(true);
+            // Save the spreadsheet
+            
+            $writer->save('../assets/SourceFile/chamcong_t' .$mon .'_' .$year .'.xlsx');
             echo "<script>
                 alert('Xóa thành công');
                 window.location.href='../HomePage/dsnhanvien.php';
