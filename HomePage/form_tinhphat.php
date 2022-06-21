@@ -1,5 +1,14 @@
 <?php
-  include 'dbconfig.php';
+    include 'dbconfig.php';
+    if(isset($_GET['phat'])) {
+        $user_id = addslashes($_GET['phat']);
+        $time = addslashes($_GET['time']);
+        $sql = "SELECT nhanvien.maNV, tenNV, chucvu.tenChucVu
+            FROM nhanvien INNER JOIN chucvu on chucvu.maChucVu = nhanvien.maChucVu
+            WHERE nhanvien.maNV = '$user_id';";
+        $result = mysqli_query($conn, $sql);
+        $row = mysqli_fetch_assoc($result);
+    }
 ?>
 
 <!DOCTYPE html>
@@ -8,7 +17,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Quản lý tính lương</title>
+    <title>Tính phạt</title>
     
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" rel="stylesheet"/>
@@ -96,95 +105,72 @@
         <!-- Begin: Thanh tiêu đề -->
         <nav class="navbar tieude">
           <div class="container-fluid">
-            <a class="navbar-brand clwhite navbar-title">Bảng thống kế lương</a>
-            <form class="d-flex form-search" method="get" action='search.php'>
+            <a class="navbar-brand clwhite navbar-title">Chi tiết phòng ban</a>
+            <form class="d-flex form-search">
               <input
                 class="form-control me-2"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-                name="filter"
-                required
-                value=""
+                type="month"
+                name="time_luong"
               />
-              <button class="btn btn-outline-success" type="submit">
-                Search
-              </button>
+              <button class="btn btn-outline-success" type="submit">Tính lương</button>
             </form>
           </div>
         </nav>
         <!-- End: Thanh tiêu đề -->
 
-        <!-- Begin: Danh sách lương -->
-        <div class="row">
-          <div class="col-md-12">
-            <div class="row element-button tinh-luong">
-              <a href="./form_tinhluong.php"><button class="btn btn-success"><i class="fas fa-plus"></i>
-                Tính lương</button></a>
-              <form class="insert-file" method="post" enctype="multipart/form-data">
-                <input type='file' name='file' id="getFile">
-                <input class="btn btn-info cc-btn" type="submit" value="Xuất bảng lương"/>
-              </form>
-            </div>
-          </div>
-        </div>
+        <!-- Begin: Form sửa phòng ban -->
         <div class="row">
             <div class="col-md-12">
-                <div class="row" id="ds-table">
+                <div class="row filter form-add">
                     <div class="col-sm-12">
-                    <span class="table-title">Bảng tính lương</span>
-                        <table class="table table-hover table-responsive table-bordered js-copytextarea" cellpadding="0" cellspacing="0" border="0">
-                            <thead>
-                              <tr>
-                                  <th>Mã nhân viên</th>
-                                  <th>Họ và tên nhân viên</th>
-                                  <th>Ngày công</th>
-                                  <th>Tiền lương</th>
-                                  <th>Tiền phụ cấp</th>
-                                  <th>Tiền thưởng</th>
-                                  <th>Tiền phạt</th>
-                                  <th>Tiền thực lĩnh</th>
-                              </tr>
-                            </thead>
-                              <?php
-                                use Shuchkin\SimpleXLSX;
-                                require_once '../src/SimpleXLSX.php';
-                                if (isset($_FILES['file'])) {
-                                  if ($xlsx = SimpleXLSX::parse($_FILES['file']['tmp_name']))
-                                  {
-                                    $dim = $xlsx->dimension();
-                                    $cols = $dim[0];
+                        <h4 class="form-add-title">Kỷ luật nhân viên</h4>
+                        <div class="form-add-content">
+                            <form class="row" method="POST" action="./form_tinhluong.php?time_luong=<?php echo $time ?>" enctype="multipart/form-data">
+                              <div class="form-group col-md-4">
+                                <label class="control-label">ID nhân viên</label>
+                                <?php echo "<input readonly='true' name='id' class='form-control' type='text' value='" .$row['maNV'] ."'>"; ?>
+                              </div>
+                              <div class="form-group col-md-4">
+                                <label class="control-label">Tên nhân viên</label>
+                                <?php echo "<input name='name' readonly class='form-control' type='text' required='' value='" .$row['tenNV'] ."'>"; ?>
+                              </div>
+                              <div class="form-group col-md-4">
+                                <label class="control-label">Chức vụ</label>
+                                <?php echo "<input name='job' readonly class='form-control' type='text' required='' value='" .$row['tenChucVu'] ."'>"; ?>
+                              </div>
+                              <div class="form-group col-md-4">
+                                <label class="control-label">Danh sách kỷ luật</label><br>
+                                <?php
+                                    $sql = "SELECT * FROM kyluat";
+                                    $query = mysqli_query($conn, $sql);
+                                    if($query->num_rows > 0) {
+                                        while ($phat = mysqli_fetch_array($query)) {
+                                    ?>
 
-                                    foreach ($xlsx->readRows() as $k => $r) {
-                                      if ($k == 0) continue; // skip first row
-                                      
-                                      echo '<tr>';
-                                      for ($i = 0; $i < $cols; $i++) {
-                                        if(isset($r[$i])) {
-                                          if(gettype($r[$i]) == 'string')
-                                            echo '<td>' .$r[$i] .'</td>';
-                                          else
-                                          echo '<td>' .number_format($r[$i]) .'</td>';
+                                    <input type="checkbox" id="phat<?php echo $phat['ID_KyLuat'] ?>"
+                                    class="cbox_thuong_phat" name="phat[]"
+                                    value = <?php echo $phat['tienPhat'] ?> >
+                                    <label for="phat<?php echo $phat['ID_KyLuat'] ?>">
+                                    <?php echo $phat['noiDung'] ." - " .$phat['tienPhat'] ?>
+                                    </label>
+                                    <br>
+                                    
+                                    <?php
                                         }
-                                        else {
-                                          echo '<td>&nbsp</td>';
-                                        }
-                                      }
-                                      echo '</tr>';
                                     }
-                                  }
-                                  else {
-                                    echo SimpleXLSX::parseError();
-                                  }
-                                }
-                              ?>
-                            </tbody>
-                        </table>
+                                ?>
+                              </div>
+
+                              <div class="form-add-btn text-center col-md-12">
+                                <button name="add_emp" class="btn btn-save" type="submit">Xác nhận</button>
+                                <a class="btn btn-cancel" href="./form_tinhluong.php?time_luong=<?php echo $time ?>">Hủy bỏ</a>
+                              </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- End: Danh sách lương -->
       </div>
     </div>
     <script src="./main.js"></script>

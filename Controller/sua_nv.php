@@ -34,6 +34,13 @@
     
     $salary = addslashes($_POST['salary']);
 
+    $contract_id = $_POST['contract_id'];
+    $contract_type = $_POST['contract_type'];
+    $date_start = $_POST['date_start'];
+    $date_end = $_POST['date_end'];
+
+
+
     if(!empty($_FILES['ImageUpload']['tmp_name']) && file_exists($_FILES['ImageUpload']['tmp_name']))
         $avatar = addslashes(file_get_contents($_FILES['ImageUpload']['tmp_name']));
     else
@@ -107,6 +114,9 @@
                 
                 $writer->save('../assets/SourceFile/chamcong_t' .$mon .'_' .$year .'.xlsx');
             }
+            // Sửa thông tin hợp đồng
+            $sql = "UPDATE hopdonglaodong SET loaiHopDong = '$contract_type', ngayBatDau = '$date_start', ngayKetThuc = '$date_end' WHERE maHopDong = '$contract_id'";
+            $query = mysqli_query($conn, $sql);
             echo "<script>
                 window.location.href='../HomePage/dsnhanvien.php';
                 alert('Sửa thông tin nhân sự thành công');

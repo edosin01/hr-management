@@ -2,9 +2,11 @@
     include 'dbconfig.php';
     if(isset($_GET['update'])) {
         $user_id = addslashes($_GET['update']);
-        $sql = "SELECT maNV, tenNV, thanhPho, gioiTinh, email, soDT, chucvu.tenChucVu, phongban.tenPhongBan, bacLuong, avatar
+        $sql = "SELECT nhanvien.maNV, tenNV, thanhPho, gioiTinh, email, soDT, chucvu.tenChucVu, phongban.tenPhongBan,
+        bacLuong, avatar, maHopDong, loaiHopDong, ngayBatDau, ngayKetThuc
             FROM nhanvien INNER JOIN chucvu on chucvu.maChucVu = nhanvien.maChucVu
             INNER JOIN phongban ON phongban.maPhongBan = nhanvien.maPhongBan
+            INNER JOIN hopdonglaodong ON nhanvien.maNV = hopdonglaodong.maNV
             WHERE nhanvien.maNV = '$user_id';";
         $result = mysqli_query($conn, $sql);
         $row = mysqli_fetch_assoc($result);
@@ -15,8 +17,8 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Chi tiết nhân viên</title>
     
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
@@ -223,6 +225,34 @@
                                     ?>
                                   </select>
                                 </div>
+                                <div class="form-group col-md-3">
+                                  <label class="control-label">Mã hợp đồng</label>
+                                  <?php echo "<input name='contract_id' readonly class='form-control' type='text' required='' value='" .$row['maHopDong'] ."'>"; ?>
+                                </div>
+                                <div class="form-group col-md-3">
+                                  <label class="control-label">Loại hợp đồng</label>
+                                  <select name="contract_type" class="form-control" required="">
+                                    <option value="blank">-- Chọn loại hợp đồng --</option>
+                                    <?php
+                                        if($row['loaiHopDong'] == "Chính thức") {
+                                            echo"<option selected='selected'>Chính thức</option>";
+                                            echo "<option>Thời vụ</option>";
+                                        }
+                                        else {
+                                            echo "<option>Chính thức</option>";
+                                            echo "<option selected='selected'>Thời vụ</option>";
+                                        }
+                                    ?>
+                                  </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                  <label class="control-label">Ngày bắt đầu</label>
+                                  <?php echo "<input name='date_start' class='form-control' type='date' required='' value='" .$row['ngayBatDau'] ."'>"; ?>
+                                </div>
+                                <div class="form-group col-md-3">
+                                  <label class="control-label">Ngày kết thúc</label>
+                                  <?php echo "<input name='date_end' class='form-control' type='date' required='' value='" .$row['ngayKetThuc'] ."'>"; ?>
+                                </div>
                   
                                 <div class="form-group col-md-12">
                                   <label class="control-label">Ảnh 3x4 nhân viên</label>
@@ -232,10 +262,6 @@
                                   <div id="thumbbox">
                                     <?php echo '<img src="data:image;base64,'.base64_encode($row['avatar']) .'" alt="image" style="width:150px;height:150px;" >'; ?>
                                     <a class="removeimg" href="javascript:"></a>
-                                  </div>
-                                  <div id="boxchoice">
-                                    <a href="javascript:" class="Choicefile"><i class="bx bx-upload"></i></a>
-                                    <p style="clear:both"></p>
                                   </div>
                                 </div>
                                 <div class="form-add-btn text-center col-md-12">

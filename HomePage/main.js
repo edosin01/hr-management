@@ -1,3 +1,4 @@
+// Navbar
 var menuBtn = document.querySelector("#content .navbar .nav-left");
 var menuNav = document.querySelector("#menu");
 var btnClose = document.querySelector(".icon-menu-close");
@@ -13,16 +14,19 @@ btnClose.onclick = function(e) {
     menuNav.classList.add("close-nav");
 }
 
-var btnCC = document.querySelector(".cc-info .cc-btn");
-var btnCancel = document.querySelector(".modal .modal-btn .btn-cancel");
-var modal = document.querySelector(".modal");
+// Chấm công
+if(document.querySelector(".cc-info .cc-btn") != null) {
+    var btnCC = document.querySelector(".cc-info .cc-btn");
+    var btnCancel_CC = document.querySelector(".modal .modal-btn .btn-cancel");
+    var modal_CC = document.querySelector(".modal");
 
-btnCC.onclick = function(e) {
-    modal.classList.remove("close");
-    modal.classList.add("open");
-}
+    btnCC.onclick = function(e) {
+        modal_CC.classList.remove("close");
+        modal_CC.classList.add("open");
+    }
 
-btnCancel.onclick = function() {
-    modal.classList.remove("open");
-    modal.classList.add("close");
+    btnCancel_CC.onclick = function() {
+        modal_CC.classList.remove("open");
+        modal_CC.classList.add("close");
+    }
 }

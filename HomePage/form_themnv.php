@@ -197,19 +197,31 @@
                                     ?>
                                   </select>
                                 </div>
+                                <div class="form-group col-md-3">
+                                  <label class="control-label">Mã hợp đồng</label>
+                                  <input name="contract_id" class="form-control" type="text">
+                                </div>
+                                <div class="form-group col-md-3">
+                                  <label class="control-label">Loại hợp đồng</label>
+                                  <select name="contract_type" class="form-control" required="">
+                                    <option value="blank">-- Chọn loại hợp đồng --</option>
+                                    <option>Chính thức</option>
+                                    <option>Thời vụ</option>
+                                  </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                  <label class="control-label">Ngày bắt đầu</label>
+                                  <input name="date_start" class="form-control" value="<?php echo date('Y-m-d') ?>" type="date" required="">
+                                </div>
+                                <div class="form-group col-md-3">
+                                  <label class="control-label">Ngày kết thúc</label>
+                                  <input name="date_end" class="form-control" type="date" required="">
+                                </div>
                   
                                 <div class="form-group col-md-12">
                                   <label class="control-label">Ảnh 3x4 nhân viên</label>
                                   <div id="myfileupload">
                                     <input type="file" id="uploadfile" name="ImageUpload" onchange="readURL(this);">
-                                  </div>
-                                  <div id="thumbbox">
-                                    <img height="300" width="300" alt="Thumb image" id="thumbimage" style="display: none">
-                                    <a class="removeimg" href="javascript:"></a>
-                                  </div>
-                                  <div id="boxchoice">
-                                    <a href="javascript:" class="Choicefile"><i class="bx bx-upload"></i></a>
-                                    <p style="clear:both"></p>
                                   </div>
                                 </div>
                                 <div class="form-add-btn text-center">

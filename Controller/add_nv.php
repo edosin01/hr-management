@@ -41,6 +41,11 @@
     $salary = addslashes($_POST['salary']);
     $avatar = addslashes(file_get_contents($_FILES['ImageUpload']['tmp_name']));
 
+    $contract_id = $_POST['contract_id'];
+    $contract_type = $_POST['contract_type'];
+    $date_start = $_POST['date_start'];
+    $date_end = $_POST['date_end'];
+
     if($job == "Trưởng phòng" && $leader_de != NULL) {
         echo "Phòng ban này đã tồn tại trưởng phòng";
     }
@@ -72,6 +77,9 @@
             // Save the spreadsheet
             
             $writer->save('../assets/SourceFile/chamcong_t' .$mon .'_' .$year .'.xlsx');
+
+            $sql = "INSERT INTO hopdonglaodong (maHopDong, loaiHopDong, ngayBatDau, ngayKetThuc, maNV) VALUES ('$contract_id', '$contract_type', '$date_start', '$date_end', '$id')";
+            $query = mysqli_query($conn, $sql);
             echo "<script>
                 window.location.href='../HomePage/dsnhanvien.php';
                 alert('Thêm nhân viên mới thành công');

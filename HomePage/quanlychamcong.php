@@ -1,9 +1,9 @@
 <?php
   include 'dbconfig.php';
-  $mon = date('m');
+  $month = date('m');
   $year = date('Y');
-  $default_file = '../assets/SourceFile/chamcong_t' .$mon .'_' .$year .'.xlsx';
-  $d_file = 'chamcong_t' .$mon .'_' .$year .'.xlsx';
+  $default_file = '../assets/SourceFile/chamcong_t' .$month .'_' .$year .'.xlsx';
+  $d_file = 'chamcong_t' .$month .'_' .$year .'.xlsx';
   $check_file = true;
   if (isset($_FILES['file'])) {
     if($_FILES['file']['name'] != $d_file) {
@@ -181,75 +181,75 @@
                   </thead>
                   <tbody>
                   <?php
-                      use Shuchkin\SimpleXLSX;
-                      require_once '../src/SimpleXLSX.php';
-                      $data = array(); // Danh sách chấm công
-                      $row = 0;
-                      if (isset($_FILES['file'])) { // Chọn bảng chấm công bất kì
-                        if ($xlsx = SimpleXLSX::parse($_FILES['file']['tmp_name']))
-                        {
-                          if($_FILES['file']['name'] != $d_file) {
-                            $check_file = false;
-                          }
-                          $dim = $xlsx->dimension();
-                          $cols = $dim[0];
-                          
-                          foreach ($xlsx->readRows() as $k => $r) {
-                            if ($k == 0) continue; // skip first row
-                            
-                            echo '<tr>';
-                            for ($i = 0; $i < $cols; $i++) {
-                              if(isset($r[$i])) {
-                                if($r[$i] == "v" || $r[$i] == "CN")
-                                  echo '<td style="color: red; font-weight: bold;">' . $r[$i]. '</td>';
-                                else
-                                  echo '<td>' . $r[$i]. '</td>';
-                                $data[$row][$i] = $r[$i];
-                              }
-                              else {
-                                echo '<td>&nbsp</td>';
-                                $data[$row][$i] = '&nbsp';
-                              }
-                            }
-                            $row++;
-                            echo '</tr>';
-                          }
+                    use Shuchkin\SimpleXLSX;
+                    require_once '../src/SimpleXLSX.php';
+                    $data = array(); // Danh sách chấm công
+                    $row = 0;
+                    if (isset($_FILES['file'])) { // Chọn bảng chấm công bất kì
+                      if ($xlsx = SimpleXLSX::parse($_FILES['file']['tmp_name']))
+                      {
+                        if($_FILES['file']['name'] != $d_file) {
+                          $check_file = false;
                         }
-                        else {
-                          echo SimpleXLSX::parseError();
+                        $dim = $xlsx->dimension();
+                        $cols = $dim[0];
+                        
+                        foreach ($xlsx->readRows() as $k => $r) {
+                          if ($k == 0) continue; // skip first row
+                          
+                          echo '<tr>';
+                          for ($i = 0; $i < $cols; $i++) {
+                            if(isset($r[$i])) {
+                              if($r[$i] == "v" || $r[$i] == "CN")
+                                echo '<td style="color: red; font-weight: bold;">' . $r[$i]. '</td>';
+                              else
+                                echo '<td>' . $r[$i]. '</td>';
+                              $data[$row][$i] = $r[$i];
+                            }
+                            else {
+                              echo '<td>&nbsp</td>';
+                              $data[$row][$i] = '&nbsp';
+                            }
+                          }
+                          $row++;
+                          echo '</tr>';
                         }
                       }
-                      else { // Hiện default, mỗi tháng một bảng chấm công mới
-                        if ($xlsx = SimpleXLSX::parse($default_file))
-                        {
-                          $dim = $xlsx->dimension();
-                          $cols = $dim[0];
+                      else {
+                        echo SimpleXLSX::parseError();
+                      }
+                    }
+                    else { // Hiện default, mỗi tháng một bảng chấm công mới
+                      if ($xlsx = SimpleXLSX::parse($default_file))
+                      {
+                        $dim = $xlsx->dimension();
+                        $cols = $dim[0];
+                        
+                        foreach ($xlsx->readRows() as $k => $r) {
+                          if ($k == 0) continue; // skip first row
                           
-                          foreach ($xlsx->readRows() as $k => $r) {
-                            if ($k == 0) continue; // skip first row
-                            
-                            echo '<tr>';
-                            for ($i = 0; $i < $cols; $i++) {
-                              if(isset($r[$i])) {
-                                if($r[$i] == "v" || $r[$i] == "CN")
-                                  echo '<td style="color: red; font-weight: bold;">' . $r[$i]. '</td>';
-                                else
-                                  echo '<td>' . $r[$i]. '</td>';
-                                $data[$row][$i] = $r[$i];
-                              }
-                              else {
-                                echo '<td>&nbsp</td>';
-                                $data[$row][$i] = '&nbsp';
-                              }
+                          echo '<tr>';
+                          for ($i = 0; $i < $cols; $i++) {
+                            if(isset($r[$i])) {
+                              if($r[$i] == "v" || $r[$i] == "CN")
+                                echo '<td style="color: red; font-weight: bold;">' . $r[$i]. '</td>';
+                              else
+                                echo '<td>' . $r[$i]. '</td>';
+                              $data[$row][$i] = $r[$i];
                             }
-                            $row++;
-                            echo '</tr>';
+                            else {
+                              echo '<td>&nbsp</td>';
+                              $data[$row][$i] = '&nbsp';
+                            }
                           }
-                        }
-                        else {
-                          echo SimpleXLSX::parseError();
+                          $row++;
+                          echo '</tr>';
                         }
                       }
+                      else {
+                        echo SimpleXLSX::parseError();
+                      }
+                    }
                   ?>
                   </tbody>
                 </table>
@@ -333,12 +333,12 @@
       if(array_key_exists('save-btn', $_POST)) {
         require('../src/PHPExcel.php');
         ghi_file($data);
-        
       }
+      
       function ghi_file($data) {
-        $mon = date('m');
+        $month = date('m');
         $year = date('Y');
-        $phpExcel = PHPExcel_IOFactory::load('../assets/SourceFile/chamcong_t' .$mon .'_' .$year .'.xlsx');
+        $phpExcel = PHPExcel_IOFactory::load('../assets/SourceFile/chamcong_t' .$month .'_' .$year .'.xlsx');
         // Get the first sheet
         $sheet = $phpExcel ->getActiveSheet();
         
@@ -354,7 +354,7 @@
         $writer->setPreCalculateFormulas(true);
         // Save the spreadsheet
         
-        $writer->save('../assets/SourceFile/chamcong_t' .$mon .'_' .$year .'.xlsx');
+        $writer->save('../assets/SourceFile/chamcong_t' .$month .'_' .$year .'.xlsx');
         echo "<script>
             window.location.href='./quanlychamcong.php';
             alert('Cập nhật thành công');

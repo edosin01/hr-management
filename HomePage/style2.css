@@ -33,6 +33,10 @@ html {
     text-align: center !important;
 }
 
+.text-right {
+    text-align: right !important;
+}
+
 .flex-column {
     flex-direction: column !important;
 }
@@ -418,6 +422,9 @@ span.num {
     border-bottom: 2px solid #FFD43B;
     padding-bottom: 10px;
     padding-left: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 #content .form-add .form-add-btn {
@@ -445,3 +452,13 @@ span.num {
     line-height: 30px;
 }
 /* End: Giao diện: Form add nhân viên */
+
+/* Begin: Giao diện: Tính lương */
+.tinh-luong {
+    justify-content: space-between;
+}
+
+input.cbox_thuong_phat {
+    transform: scale(1.5);
+}
+/* End: Giao diện: Tính lương */
