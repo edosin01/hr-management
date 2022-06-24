@@ -284,7 +284,8 @@
       if(array_key_exists('xlsx-export-btn', $_POST)) {
         require('../src/PHPExcel.php');
         ghi_file($data, $month, $year);
-        session_destroy();
+        unset($_SESSION['thuong']);
+        unset($_SESSION['phat']);
       }
       
       function ghi_file($data, $month, $year) {
