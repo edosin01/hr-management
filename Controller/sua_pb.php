@@ -21,14 +21,14 @@
         $job = $row['tenChucVu'];
     }
 
-    if($job == "Trưởng phòng") {
+    if($job == "Trưởng phòng" && $leader != $old_data['maTruongP']) {
         echo "<script>
             alert('Không thể set trưởng phòng khác làm trưởng phòng này');
             window.location.href='../HomePage/index.php';
             </script>";
     }
     else {
-        // Phòng ban là phòng trống
+        // Phòng ban không phải phòng trống
         if($old_data['maTruongP'] != NULL) {
             // chuyển trưởng phòng cũ về làm nhân viên
             $sql = "UPDATE nhanvien SET maChucVu = (SELECT maChucVu FROM chucvu where tenChucVu = 'Nhân viên') WHERE maNV = '" .$old_data['maTruongP'] ."'";
@@ -70,9 +70,9 @@
                 }
             }
         }
-        // Phòng cũ đã có người
+        // Phòng cũ là phòng trống
         else {
-            if($leader == NULL) {
+            if($leader == NULL) { // Không chọn trưởng phòng mới -> set thành phòng trống
                 $sql = "UPDATE phongban SET tenPhongBan = '$name', soDienThoai = '$phone', maTruongP = NULL WHERE maPhongBan = '$id'";
                 if(mysqli_query($conn, $sql)) {
                     echo "<script>
