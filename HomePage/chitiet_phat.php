@@ -1,5 +1,11 @@
 <?php
-  include 'dbconfig.php';
+    include 'dbconfig.php';
+    if(isset($_GET['update'])) {
+        $id = addslashes($_GET['update']);
+        $sql = "SELECT * FROM kyluat where ID_KyLuat = '$id'";
+        $result = mysqli_query($conn, $sql);
+        $row = mysqli_fetch_assoc($result);
+    }
 ?>
 
 <!DOCTYPE html>
@@ -8,7 +14,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Quản lý tính lương</title>
+    <title>Chi tiết kỷ luật</title>
     
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" rel="stylesheet"/>
@@ -96,8 +102,8 @@
         <!-- Begin: Thanh tiêu đề -->
         <nav class="navbar tieude">
           <div class="container-fluid">
-            <a class="navbar-brand clwhite navbar-title">Bảng thống kế lương</a>
-            <form class="d-flex form-search" method="get" action='search.php'>
+            <a class="navbar-brand clwhite navbar-title">Chi tiết kỷ luật</a>
+            <form class="d-flex form-search" method="get">
               <input
                 class="form-control me-2"
                 type="search"
@@ -115,75 +121,37 @@
         </nav>
         <!-- End: Thanh tiêu đề -->
 
-        <!-- Begin: Danh sách lương -->
-        <div class="row">
-          <div class="col-md-12">
-            <div class="row element-button tinh-luong">
-              <a href="./form_tinhluong.php"><button class="btn btn-success"><i class="fas fa-plus"></i>
-                Tính lương</button></a>
-              <form class="insert-file" method="post" enctype="multipart/form-data">
-                <input type='file' name='file' id="getFile">
-                <input class="btn btn-info cc-btn" type="submit" value="Xuất bảng lương"/>
-              </form>
-            </div>
-          </div>
-        </div>
+        <!-- Begin: Form sửa kỷ luật -->
         <div class="row">
             <div class="col-md-12">
-                <div class="row" id="ds-table">
+                <div class="row filter form-add">
                     <div class="col-sm-12">
-                    <span class="table-title">Bảng tính lương</span>
-                        <table class="table table-hover table-responsive table-bordered js-copytextarea" cellpadding="0" cellspacing="0" border="0">
-                            <thead>
-                              <tr>
-                                  <th>Mã nhân viên</th>
-                                  <th>Họ và tên nhân viên</th>
-                                  <th>Ngày công</th>
-                                  <th>Tiền lương</th>
-                                  <th>Tiền phụ cấp</th>
-                                  <th>Tiền thưởng</th>
-                                  <th>Tiền phạt</th>
-                                  <th>Tiền thực lĩnh</th>
-                              </tr>
-                            </thead>
-                              <?php
-                                use Shuchkin\SimpleXLSX;
-                                require_once '../src/SimpleXLSX.php';
-                                if (isset($_FILES['file'])) {
-                                  if ($xlsx = SimpleXLSX::parse($_FILES['file']['tmp_name']))
-                                  {
-                                    $dim = $xlsx->dimension();
-                                    $cols = $dim[0];
-                                    foreach ($xlsx->readRows() as $k => $r) {
-                                      if ($k == 0) continue; // skip first row
-                                      
-                                      echo '<tr>';
-                                      for ($i = 0; $i < $cols; $i++) {
-                                        if(isset($r[$i])) {
-                                          if(gettype($r[$i]) == 'string')
-                                            echo '<td>' .$r[$i] .'</td>';
-                                          else
-                                          echo '<td>' .number_format($r[$i]) .'</td>';
-                                        }
-                                        else {
-                                          echo '<td>&nbsp</td>';
-                                        }
-                                      }
-                                      echo '</tr>';
-                                    }
-                                  }
-                                  else {
-                                    echo SimpleXLSX::parseError();
-                                  }
-                                }
-                              ?>
-                            </tbody>
-                        </table>
+                        <h4 class="form-add-title">Thông tin chi tiết kỷ luật</h4>
+                        <div class="form-add-content">
+                            <form class="row" method="POST" action="../Controller/sua_phat.php" enctype="multipart/form-data">
+                                <div class="form-group col-md-3">
+                                  <label class="control-label">ID kỷ luật</label>
+                                  <?php echo "<input readonly='true' name='id' class='form-control' type='text' value='" .$row['ID_KyLuat'] ."'>"; ?>
+                                </div>
+                                <div class="form-group col-md-3">
+                                  <label class="control-label">Tiền thưởng</label>
+                                  <?php echo "<input name='money' class='form-control' type='text' required='' value='" .$row['tienPhat'] ."'>"; ?>
+                                </div>
+                                <div class="form-group col-md-6">
+                                  <label class="control-label">Nội dung kỷ luật</label>
+                                  <?php echo "<input name='name' class='form-control' type='text' required='' value='" .$row['noiDung'] ."'>"; ?>
+                                </div>
+                                
+                                <div class="form-add-btn text-center col-md-12">
+                                  <button name="add_emp" class="btn btn-save" type="submit">Chỉnh sửa</button>
+                                  <a class="btn btn-cancel" href="./khenthuong_kyluat.php">Hủy bỏ</a>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- End: Danh sách lương -->
       </div>
     </div>
     <script src="./main.js"></script>

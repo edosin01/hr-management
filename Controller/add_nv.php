@@ -55,8 +55,8 @@
             $query = mysqli_query($conn, $sql);
         }
         $sql = "insert into nhanvien (maNV, tenNV, gioiTinh, avatar, thanhPho, soDT, email, maPhongBan,
-            maChucVu, bacLuong) values ('$id', '$name', $gender, '$avatar', '$address', '$phone',
-            '$email', '$department_id', '$job_id', '$salary')";
+            maChucVu, bacLuong, tinhTrang) values ('$id', '$name', $gender, '$avatar', '$address', '$phone',
+            '$email', '$department_id', '$job_id', '$salary', 1)";
         if (mysqli_query($conn, $sql)) {
             require('../src/PHPExcel.php');
             $mon = date('m');
@@ -78,7 +78,13 @@
             
             $writer->save('../assets/SourceFile/chamcong_t' .$mon .'_' .$year .'.xlsx');
 
-            $sql = "INSERT INTO hopdonglaodong (maHopDong, loaiHopDong, ngayBatDau, ngayKetThuc, maNV) VALUES ('$contract_id', '$contract_type', '$date_start', '$date_end', '$id')";
+            // Thêm hợp đồng lao động mới
+            $sql = "INSERT INTO hopdonglaodong (maHopDong, loaiHopDong, ngayBatDau, ngayKetThuc, maNV, tinhTrang) 
+                VALUES ('$contract_id', '$contract_type', '$date_start', '$date_end', '$id', 1)";
+            $query = mysqli_query($conn, $sql);
+
+            // Thêm hồ sơ lưu vết mới
+            $sql = "INSERT INTO hoso VALUES (null, '$id', '$job_id', '$date_start', 0, 1)";
             $query = mysqli_query($conn, $sql);
             echo "<script>
                 window.location.href='../HomePage/dsnhanvien.php';

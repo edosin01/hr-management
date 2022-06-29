@@ -296,6 +296,14 @@ span.num {
 }
 /* End: Giao diện: danh sách nhân viên */
 
+/* Giao diện: Khen thưởng - Kỷ luật */
+
+.title-thuongphat.d-flex {
+    justify-content: space-between;
+}
+
+/* End: Giao diện: Khen thưởng - Kỷ luật */
+
 /* Giao diện: Xác nhận xóa */
 .modal {
     position: fixed;

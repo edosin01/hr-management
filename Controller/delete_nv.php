@@ -2,10 +2,19 @@
     include '../HomePage/dbconfig.php';
     if(isset($_GET['delete'])) {
         $user_id = addslashes($_GET['delete']);
-        // Xóa hợp đồng lao động
-        $query = "DELETE FROM hopdonglaodong where maNV = '$user_id'";
+        // Chuyển hợp đồng lao động về trạng thái 0
+        $query = "UPDATE hopdonglaodong SET tinhTrang = 0, ngayKetThuc = CURRENT_DATE WHERE maNV = '$user_id'";
         if($query)
             $result = mysqli_query($conn, $query);
+        
+        // Cập nhật ngày làm cho hồ sơ gần đây nhất
+        $sql = "SELECT hoso.maNV, MAX(ngayLuuChuyen) as ngayNhamChuc FROM hoso WHERE maNV = '$user_id'";
+        $result = mysqli_query($conn, $sql);
+        $row = mysqli_fetch_array($result);
+        $ngayNhamChuc = addslashes($row['ngayNhamChuc']);
+        $sql_update = "UPDATE hoso SET soNgayDamNhiem = DATEDIFF(CURRENT_DATE, '$ngayNhamChuc'), trangThai = 0 
+            WHERE maNV = '$user_id' AND ngayLuuChuyen = '$ngayNhamChuc'";
+        $result = mysqli_query($conn, $sql_update);
 
         //Truy vấn nếu là trưởng phòng thì sửa lại thông tin trưởng phòng ở bảng phòng ban
         $query = "SELECT nhanvien.maPhongBan, tenChucVu
@@ -23,8 +32,8 @@
             }
         }
         
-        // Xóa nhân viên
-        $query = "delete from nhanvien where maNV = '$user_id'";
+        // Cập nhật trạng thái nhân viên thôi việc
+        $query = "UPDATE nhanvien SET tinhTrang = 0 WHERE maNV = '$user_id'";
         if(mysqli_query($conn, $query))
         {
             require('../src/PHPExcel.php');

@@ -52,11 +52,9 @@
             echo "Phòng ban này đã tồn tại trưởng phòng";
             $check = false;
         }
-        else { // chức vụ mới là trưởng phòng mà phòng chưa có tp
-            if($job == "Trưởng phòng" && $leader_de == NULL) {
-                $sql = "UPDATE phongban SET maTruongP = '$id' where maPhongBan = '$department_id'";
-                $query = mysqli_query($conn, $sql);
-            }
+        else if($job == "Trưởng phòng" && $leader_de == NULL) { // phòng trống
+            $sql = "UPDATE phongban SET maTruongP = '$id' where maPhongBan = '$department_id'";
+            $query = mysqli_query($conn, $sql);
         }
     }
     else {

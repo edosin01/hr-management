@@ -119,7 +119,10 @@
             <div class="col-md-6 khenthuong">
                 <div class="row" id="ds-table">
                     <div class="col-sm-12">
-                    <span class="table-title">Danh sách khen thưởng</span>
+                      <div class="title-thuongphat d-flex">
+                        <span class="table-title">Danh sách khen thưởng</span>
+                        <a href="./form_themthuong.php"><button type="button" class="btn btn-success"><i class='fas fa-plus'></i> Khen thưởng</button></a>
+                      </div>
                         <table class="table table-hover table-responsive table-bordered js-copytextarea" cellpadding="0" cellspacing="0" border="0">
                             <thead>
                                 <tr>
@@ -134,18 +137,23 @@
                                 $sql = "SELECT * from khenthuong";
                                 $result = mysqli_query($conn, $sql);
                                 if($result->num_rows > 0) {
-                                  while ($row = mysqli_fetch_array($result)) {
+                                  while ($row_th = mysqli_fetch_array($result)) {
                                     echo "<tr>";
-                                    echo "<td>".$row['ID_KhenThuong']."</td>";
-                                    echo "<td>".$row['noiDung']."</td>";
-                                    echo "<td>".$row['tienThuong']."</td>";
-                                    echo "<td class='table-td-center'><button class='btn btn-primary btn-sm trash' type='button' title='Xóa'>
-                                    <i class='fas fa-trash-alt'></i>
-                                    </button>
-                                    <button class='btn btn-primary btn-sm edit' type='button' title='Sửa' id='show-emp'
-                                      data-toggle='modal' data-target='#ModalUP'><i class='fas fa-edit'></i>
-                                    </button>
-                                  </td>";
+                                    echo "<td>".$row_th['ID_KhenThuong']."</td>";
+                                    echo "<td>".$row_th['noiDung']."</td>";
+                                    echo "<td>".$row_th['tienThuong']."</td>";
+                                    echo "<td class='table-td-center'>
+                                      <a class='btn-form' href='./chitiet_thuong.php?update=" .$row_th['ID_KhenThuong'] ."'>
+                                        <button class='btn btn-primary btn-sm edit' type='button' title='Sửa' id='show-emp'
+                                          data-toggle='modal' data-target='#ModalUP'><i class='fas fa-edit'></i>
+                                        </button>
+                                      </a>
+                                      <a class='btn-form' href='../Controller/delete_thuong.php?delete=" .$row_th['ID_KhenThuong'] ."'>
+                                        <button class='btn btn-primary btn-sm trash' type='button' title='Xóa'>
+                                          <i class='fas fa-trash-alt'></i>
+                                        </button>
+                                      </a>
+                                    </td>";
                                     echo "</tr>";
                                   }
                                 }
@@ -159,39 +167,47 @@
             <div class="col-md-6 kyluat">
                 <div class="row" id="ds-table">
                     <div class="col-sm-12">
-                    <span class="table-title">Danh sách kỷ luật</span>
-                        <table class="table table-hover table-responsive table-bordered js-copytextarea" cellpadding="0" cellspacing="0" border="0">
-                        <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th class="table-ct">Nội dung</th>
-                                    <th>Tiền phạt</th>
-                                    <th class="table-act">Hành động</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <?php
-                                $sql = "SELECT * from kyluat";
-                                $result = mysqli_query($conn, $sql);
-                                if($result->num_rows > 0) {
-                                  while ($row = mysqli_fetch_array($result)) {
-                                    echo "<tr>";
-                                    echo "<td>".$row['ID_KyLuat']."</td>";
-                                    echo "<td>".$row['noiDung']."</td>";
-                                    echo "<td>".$row['tienPhat']."</td>";
-                                    echo "<td class='table-td-center'><button class='btn btn-primary btn-sm trash' type='button' title='Xóa'>
-                                    <i class='fas fa-trash-alt'></i>
-                                    </button>
-                                    <button class='btn btn-primary btn-sm edit' type='button' title='Sửa' id='show-emp'
-                                      data-toggle='modal' data-target='#ModalUP'><i class='fas fa-edit'></i>
-                                    </button>
-                                  </td>";
-                                    echo "</tr>";
-                                  }
+                      <div class="title-thuongphat d-flex">
+                        <span class="table-title">Danh sách kỷ luật</span>
+                        <a href="./form_themphat.php"><button type="button" class="btn btn-success"><i class='fas fa-plus'></i> Kỷ luật</button></a>
+                      </div>
+                      <table class="table table-hover table-responsive table-bordered js-copytextarea" cellpadding="0" cellspacing="0" border="0">
+                      <thead>
+                              <tr>
+                                  <th>ID</th>
+                                  <th class="table-ct">Nội dung</th>
+                                  <th>Tiền phạt</th>
+                                  <th class="table-act">Hành động</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                          <?php
+                              $sql = "SELECT * from kyluat";
+                              $result = mysqli_query($conn, $sql);
+                              if($result->num_rows > 0) {
+                                while ($row_ph = mysqli_fetch_array($result)) {
+                                  echo "<tr>";
+                                  echo "<td>".$row_ph['ID_KyLuat']."</td>";
+                                  echo "<td>".$row_ph['noiDung']."</td>";
+                                  echo "<td>".$row_ph['tienPhat']."</td>";
+                                  echo "<td class='table-td-center'>
+                                    <a class='btn-form' href='./chitiet_phat.php?update=" .$row_ph['ID_KyLuat'] ."'>
+                                      <button class='btn btn-primary btn-sm edit' type='button' title='Sửa'>
+                                        <i class='fas fa-edit'></i>
+                                      </button>
+                                    </a>
+                                    <a class='btn-form' href='../Controller/delete_phat.php?delete=" .$row_ph['ID_KyLuat'] ."'>
+                                      <button class='btn btn-primary btn-sm trash' type='button' title='Xóa'>
+                                        <i class='fas fa-trash-alt'></i>
+                                      </button>
+                                    </a>
+                                </td>";
+                                  echo "</tr>";
                                 }
-                              ?>
-                            </tbody>
-                        </table>
+                              }
+                            ?>
+                          </tbody>
+                      </table>
                     </div>
                 </div>
             </div>

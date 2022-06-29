@@ -295,12 +295,12 @@
                           echo "&nbsp&nbsp&nbsp";
                           echo "<input class='mg6' type='radio' name='status" . $r."' value='v' checked='checked'>Vắng mặt</input>";
                           echo "&nbsp&nbsp&nbsp";
-                          echo "<input class='mg6' type='radio' name='status" . $r."' value='CN'>Chủ nhật</input>";
+                          echo "<input class='mg6' type='radio' disabled name='status" . $r."' value='CN'>Chủ nhật</input>";
                         }
                         else if($newDate == "Sunday") {
-                          echo "<input class='mg6' type='radio' name='status" . $r."' value='x'>Đi làm</input>";
+                          echo "<input class='mg6' disabled type='radio' name='status" . $r."' value='x'>Đi làm</input>";
                           echo "&nbsp&nbsp&nbsp";
-                          echo "<input class='mg6' type='radio' name='status" . $r."' value='v'>Vắng mặt</input>";
+                          echo "<input class='mg6' disabled type='radio' name='status" . $r."' value='v'>Vắng mặt</input>";
                           echo "&nbsp&nbsp&nbsp";
                           echo "<input class='mg6' type='radio' name='status" . $r."' value='CN' checked='checked'>Chủ nhật</input>";
                         }
@@ -309,7 +309,7 @@
                           echo "&nbsp&nbsp&nbsp";
                           echo "<input class='mg6' type='radio' name='status" . $r."' value='v'>Vắng mặt</input>";
                           echo "&nbsp&nbsp&nbsp";
-                          echo "<input class='mg6' type='radio' name='status" . $r."' value='CN'>Chủ nhật</input>";
+                          echo "<input class='mg6' type='radio' disabled name='status" . $r."' value='CN'>Chủ nhật</input>";
                         }
                       ?>
                     </td>

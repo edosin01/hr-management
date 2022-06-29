@@ -129,7 +129,7 @@
             <a href="./dsnhanvien.php" class="col-sm mg6 d-flex item" style="background-color: #CF2B2B;">
               <div class="col-7 d-flex flex-column item-info">
                 <span class="num"><?php
-                  $sql = "SELECT * FROM `nhanvien` INNER JOIN chucvu WHERE nhanvien.maChucVu = chucvu.maChucVu;";
+                  $sql = "SELECT * FROM `nhanvien` INNER JOIN chucvu ON nhanvien.maChucVu = chucvu.maChucVu where tinhTrang = 1;";
                   $result = mysqli_query($conn, $sql);
                   if($result->num_rows < 10)
                     echo "0" .$result->num_rows;
@@ -164,7 +164,7 @@
               <div class="col-7 d-flex flex-column item-info">
                 <span class="num">
                 <?php
-                    $sql_tk = "select * FROM taikhoan";
+                    $sql_tk = "select * FROM nhanvien where tinhTrang = 0";
                     $result_tk = mysqli_query($conn, $sql_tk);
                     if($result_tk->num_rows < 10)
                       echo "0" .$result_tk->num_rows;
@@ -172,10 +172,10 @@
                       echo $result_tk->num_rows;
                   ?>
                 </span>
-                <span class="te">Tài khoản</span>
+                <span class="te">Đã nghỉ</span>
               </div>
               <div class="col-5 flex-column item-logo">
-                <i class="bi bi-person-plus-fill icon-item"></i>
+                <i class="bi bi-person-dash-fill icon-item"></i>
               </div>
             </a>
           </div>
@@ -209,7 +209,7 @@
                             <?php
                               $sql = "SELECT phongban.maPhongBan, tenPhongBan, maTruongP, tenNV, avatar, soDT
                                 FROM phongban, nhanvien
-                                WHERE nhanvien.maNV = phongban.maTruongP OR phongban.maTruongP IS NULL
+                                WHERE nhanvien.maNV = phongban.maTruongP OR phongban.maTruongP IS NULL AND tinhTrang = 1
                                 GROUP BY phongban.maPhongBan HAVING COUNT(phongban.maPhongBan) >= 1
                                 ORDER by phongban.maPhongBan;";
                               $result = mysqli_query($conn, $sql);

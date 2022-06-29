@@ -251,13 +251,13 @@
                               echo"<form method='POST'>
                                 <td class='table-td-center'>
                                 <a class='btn-form' href='./form_tinhthuong.php?thuong=" .$id ."&time=" .$year .'_' .$month ."'>
-                                <button class='btn btn-primary btn-sm add-th btn-th" .$id ."' type='button'
+                                <button class='btn btn-primary btn-sm' type='button'
                                 title='Thưởng' name='thuong'" .$id ."' value='" .$id ."'>
                                   <i class='fas fa-plus'></i>
                                 </button>
                                 </a>
                                 <a class='btn-form' href='./form_tinhphat.php?phat=" .$id ."&time=" .$year .'_' .$month ."'>
-                                <button class='btn btn-primary btn-sm minus-th btn-ph" .$id ."' type='button'
+                                <button class='btn btn-primary btn-sm' type='button'
                                 title='Phạt' name='phat'" .$id ."' value='" .$id ."'>
                                   <i class='fas fa-minus'></i>
                                 </button></a>

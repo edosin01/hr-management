@@ -1,15 +1,27 @@
 <?php
     include 'dbconfig.php';
     if(isset($_GET['update'])) {
-        $user_id = addslashes($_GET['update']);
-        $sql = "SELECT nhanvien.maNV, tenNV, thanhPho, gioiTinh, email, soDT, chucvu.tenChucVu, phongban.tenPhongBan,
-        bacLuong, avatar, maHopDong, loaiHopDong, ngayBatDau, ngayKetThuc
-            FROM nhanvien INNER JOIN chucvu on chucvu.maChucVu = nhanvien.maChucVu
-            INNER JOIN phongban ON phongban.maPhongBan = nhanvien.maPhongBan
-            INNER JOIN hopdonglaodong ON nhanvien.maNV = hopdonglaodong.maNV
-            WHERE nhanvien.maNV = '$user_id';";
-        $result = mysqli_query($conn, $sql);
-        $row = mysqli_fetch_assoc($result);
+      $user_id = addslashes($_GET['update']);
+      $sql = "SELECT nhanvien.maNV, tenNV, thanhPho, gioiTinh, email, soDT, chucvu.tenChucVu, phongban.tenPhongBan,
+      bacLuong, avatar, maHopDong, loaiHopDong, ngayBatDau, ngayKetThuc
+          FROM nhanvien INNER JOIN chucvu on chucvu.maChucVu = nhanvien.maChucVu
+          INNER JOIN phongban ON phongban.maPhongBan = nhanvien.maPhongBan
+          INNER JOIN hopdonglaodong ON nhanvien.maNV = hopdonglaodong.maNV
+          WHERE nhanvien.maNV = '$user_id';";
+      $result = mysqli_query($conn, $sql);
+      $row = mysqli_fetch_assoc($result);
+
+      $sql_thamnien = "SELECT DATEDIFF(CURRENT_DATE, (SELECT ngayBatDau from hopdonglaodong WHERE maNV = '$user_id')) AS thamnien";
+      $result_thamnien = mysqli_query($conn, $sql_thamnien);
+      $row_thamnien = mysqli_fetch_assoc($result_thamnien);
+
+      $sql_trp = "SELECT SUM(soNgayDamNhiem) AS trp FROM hoso WHERE maNV = '$user_id' AND maChucVu = 1";
+      $result_trp = mysqli_query($conn, $sql_trp);
+      $row_trp = mysqli_fetch_assoc($result_trp);
+
+      $sql_nv = "SELECT SUM(soNgayDamNhiem) AS nv FROM hoso WHERE maNV = '$user_id' AND maChucVu = 2";
+      $result_nv = mysqli_query($conn, $sql_nv);
+      $row_nv = mysqli_fetch_assoc($result_nv);
     }
 ?>
 
@@ -252,6 +264,16 @@
                                 <div class="form-group col-md-3">
                                   <label class="control-label">Ngày kết thúc</label>
                                   <?php echo "<input name='date_end' class='form-control' type='date' required='' value='" .$row['ngayKetThuc'] ."'>"; ?>
+                                </div>
+                                <div class="form-group col-md-12">
+                                  <label for="exampleFormControlTextarea2">Thâm niên</label>
+                                  <textarea readonly class="form-control rounded-0" id="exampleFormControlTextarea2" rows="4" placeholder="<?php 
+                                    echo "Thâm niên: " .$row_thamnien['thamnien'] ." ngày\n";
+                                    if($row_nv['nv'] != null)
+                                      echo "Nhân viên: " .$row_nv['nv'] ." ngày\n";
+                                    if($row_trp['trp'] != null)
+                                      echo "Trưởng phòng: " .$row_trp['trp'] ." ngày\n";
+                                  ?>"></textarea>
                                 </div>
                   
                                 <div class="form-group col-md-12">

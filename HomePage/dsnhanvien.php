@@ -2,6 +2,7 @@
     include 'dbconfig.php';
     $sql = "SELECT * FROM `nhanvien` INNER JOIN chucvu ON nhanvien.maChucVu = chucvu.maChucVu
         INNER JOIN phongban ON phongban.maPhongBan = nhanvien.maPhongBan
+        WHERE tinhTrang = 1
         order by maNV;";
     $result = mysqli_query($conn, $sql);
 ?>
@@ -127,7 +128,7 @@
                   Tạo mới nhân viên</a>
               </div>
               <div class="col-s-2">
-                <a class="btn btn-sm nhap-tu-file" type="button" title="Nhập"><i class="fas fa-file-upload"></i> Tải từ file</a>
+                <a class="btn btn-sm nhap-tu-file" href="../Controller/update_thamnien.php" type="button" title="Nhập"><i class="fas fa-file-upload"></i> Cập nhật danh sách</a>
               </div>
     
               <div class="col-s-2">
