@@ -137,7 +137,7 @@
                                     <option value="blank">-- Mã trưởng phòng --</option>
                                     <?php
                                       $sql = "SELECT maNV, tenNV FROM nhanvien as a
-                                      WHERE a.maNV NOT IN
+                                      WHERE tinhTrang = 1 AND a.maNV NOT IN
                                       (SELECT nhanvien.maNV FROM nhanvien INNER JOIN phongban ON nhanvien.maPhongBan = phongban.maPhongBan
                                       WHERE nhanvien.maNV = phongban.maTruongP)";
                                       $result_matp = mysqli_query($conn, $sql);

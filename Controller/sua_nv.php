@@ -24,6 +24,21 @@
     $res = mysqli_fetch_assoc($query);
     $job_id = addslashes($res['maChucVu']);
 
+    if($old_data['maChucVu'] != $job_id) {
+        // Cập nhật hồ sơ cũ
+        $sql = "SELECT hoso.maNV, MAX(ngayLuuChuyen) as ngayNhamChuc FROM hoso WHERE maNV = '$id'";
+        $result = mysqli_query($conn, $sql);
+        $row = mysqli_fetch_array($result);
+        $ngayNhamChuc = addslashes($row['ngayNhamChuc']);
+        $sql_update = "UPDATE hoso SET soNgayDamNhiem = DATEDIFF(CURRENT_DATE, '$ngayNhamChuc')
+            WHERE maNV = '$id' AND ngayLuuChuyen = '$ngayNhamChuc'";
+        $result = mysqli_query($conn, $sql_update);
+
+        //Thêm hồ sơ mới
+        $sql = "INSERT INTO hoso VALUES(null, '$id', '$job_id', CURRENT_DATE, 0, 1)";
+        $query = mysqli_query($conn, $sql);
+    }
+
     // Lấy mã phòng ban từ tên phòng ban
     $department = addslashes($_POST['department']);
     $sql = "Select maPhongBan, maTruongP from phongban where tenPhongBan = '$department'";

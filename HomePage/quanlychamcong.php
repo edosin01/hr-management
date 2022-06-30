@@ -274,7 +274,7 @@
                 </thead>
                 <tbody>
                   <?php
-                    $sql = "SELECT maNV, tenNV FROM nhanvien";
+                    $sql = "SELECT maNV, tenNV FROM nhanvien WHERE tinhTrang = 1";
                     $query = mysqli_query($conn, $sql);
                     $date = date('d');
                     if($query->num_rows > 0) {

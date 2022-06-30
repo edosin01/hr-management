@@ -160,7 +160,7 @@
                 <i class="bi bi-bank icon-item"></i>
               </div>
             </a>
-            <a href="#" class="col-sm mg6 d-flex item" style="background-color: #45D84B;">
+            <a href="./dsnhanvien_nghiviec.php" class="col-sm mg6 d-flex item" style="background-color: #45D84B;">
               <div class="col-7 d-flex flex-column item-info">
                 <span class="num">
                 <?php
@@ -209,13 +209,13 @@
                             <?php
                               $sql = "SELECT phongban.maPhongBan, tenPhongBan, maTruongP, tenNV, avatar, soDT
                                 FROM phongban, nhanvien
-                                WHERE nhanvien.maNV = phongban.maTruongP OR phongban.maTruongP IS NULL AND tinhTrang = 1
+                                WHERE nhanvien.maNV = phongban.maTruongP OR phongban.maTruongP IS NULL
                                 GROUP BY phongban.maPhongBan HAVING COUNT(phongban.maPhongBan) >= 1
                                 ORDER by phongban.maPhongBan;";
                               $result = mysqli_query($conn, $sql);
                               if($result->num_rows > 0) {
                                 while ($row = mysqli_fetch_assoc($result)) {
-                                  $sql_slnv = "select COUNT(maNV) as SL FROM nhanvien WHERE maPhongBan = '" . $row['maPhongBan'] ."'";
+                                  $sql_slnv = "select COUNT(maNV) as SL FROM nhanvien WHERE tinhTrang = 1 AND maPhongBan = '" . $row['maPhongBan'] ."'";
                                   $query = mysqli_query($conn, $sql_slnv);
                                   $slnv = mysqli_fetch_assoc($query);
                                   if($row['maTruongP'] != NULL) {

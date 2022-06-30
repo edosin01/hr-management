@@ -140,7 +140,7 @@
                                 <div class="form-group col-md-4">
                                   <label class="control-label">Số lượng nhân sự</label>
                                   <?php
-                                    $sql_slnv = "select COUNT(maNV) as SL FROM nhanvien WHERE maPhongBan = '" . $row['maPhongBan'] ."'";
+                                    $sql_slnv = "select COUNT(maNV) as SL FROM nhanvien WHERE tinhTrang = 1 AND maPhongBan = '" . $row['maPhongBan'] ."'";
                                     $query_slnv = mysqli_query($conn, $sql_slnv);
                                     $slnv = mysqli_fetch_assoc($query_slnv);
                                     echo "<input readonly name='sl' class='form-control' type='text' value='" .$slnv['SL'] ."'>";
@@ -151,7 +151,7 @@
                                   <select name="leader" class="form-control" id="exampleSelect1">
                                     <option value="blank">-- Chọn trưởng phòng --</option>
                                     <?php
-                                        $sql_nv = "SELECT maNV, tenNV FROM nhanvien";
+                                        $sql_nv = "SELECT maNV, tenNV FROM nhanvien WHERE tinhTrang = 1";
                                         $result_nv = mysqli_query($conn, $sql_nv);
                                     ?>
                                     <?php

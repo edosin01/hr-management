@@ -1,27 +1,27 @@
 <?php
     include 'dbconfig.php';
     if(isset($_GET['update'])) {
-      $user_id = addslashes($_GET['update']);
-      $sql = "SELECT nhanvien.maNV, tenNV, thanhPho, gioiTinh, email, soDT, chucvu.tenChucVu, phongban.tenPhongBan,
-      bacLuong, avatar, maHopDong, loaiHopDong, ngayBatDau, ngayKetThuc
-          FROM nhanvien INNER JOIN chucvu on chucvu.maChucVu = nhanvien.maChucVu
-          INNER JOIN phongban ON phongban.maPhongBan = nhanvien.maPhongBan
-          INNER JOIN hopdonglaodong ON nhanvien.maNV = hopdonglaodong.maNV
-          WHERE nhanvien.maNV = '$user_id';";
-      $result = mysqli_query($conn, $sql);
-      $row = mysqli_fetch_assoc($result);
+        $user_id = addslashes($_GET['update']);
+        $sql = "SELECT nhanvien.maNV, tenNV, thanhPho, gioiTinh, email, soDT, chucvu.tenChucVu, phongban.tenPhongBan,
+        bacLuong, avatar, maHopDong, loaiHopDong, ngayBatDau, ngayKetThuc, nhanvien.tinhTrang
+            FROM nhanvien INNER JOIN chucvu on chucvu.maChucVu = nhanvien.maChucVu
+            INNER JOIN phongban ON phongban.maPhongBan = nhanvien.maPhongBan
+            INNER JOIN hopdonglaodong ON nhanvien.maNV = hopdonglaodong.maNV
+            WHERE nhanvien.maNV = '$user_id';";
+        $result = mysqli_query($conn, $sql);
+        $row = mysqli_fetch_assoc($result);
 
-      $sql_thamnien = "SELECT DATEDIFF(CURRENT_DATE, (SELECT ngayBatDau from hopdonglaodong WHERE maNV = '$user_id')) AS thamnien";
-      $result_thamnien = mysqli_query($conn, $sql_thamnien);
-      $row_thamnien = mysqli_fetch_assoc($result_thamnien);
+        $sql_thamnien = "SELECT DATEDIFF(ngayKetThuc, ngayBatDau) AS thamnien FROM hopdonglaodong WHERE maNV = '$user_id'";
+        $result_thamnien = mysqli_query($conn, $sql_thamnien);
+        $row_thamnien = mysqli_fetch_assoc($result_thamnien);
 
-      $sql_trp = "SELECT SUM(soNgayDamNhiem) AS trp FROM hoso WHERE maNV = '$user_id' AND maChucVu = 1";
-      $result_trp = mysqli_query($conn, $sql_trp);
-      $row_trp = mysqli_fetch_assoc($result_trp);
+        $sql_trp = "SELECT SUM(soNgayDamNhiem) AS trp FROM hoso WHERE maNV = '$user_id' AND maChucVu = 1";
+        $result_trp = mysqli_query($conn, $sql_trp);
+        $row_trp = mysqli_fetch_assoc($result_trp);
 
-      $sql_nv = "SELECT SUM(soNgayDamNhiem) AS nv FROM hoso WHERE maNV = '$user_id' AND maChucVu = 2";
-      $result_nv = mysqli_query($conn, $sql_nv);
-      $row_nv = mysqli_fetch_assoc($result_nv);
+        $sql_nv = "SELECT SUM(soNgayDamNhiem) AS nv FROM hoso WHERE maNV = '$user_id' AND maChucVu = 2";
+        $result_nv = mysqli_query($conn, $sql_nv);
+        $row_nv = mysqli_fetch_assoc($result_nv);
     }
 ?>
 
@@ -152,15 +152,15 @@
                                 </div>
                                 <div class="form-group col-md-4">
                                   <label class="control-label">Họ và tên</label>
-                                  <?php echo "<input name='name' class='form-control' type='text' required='' value='" .$row['tenNV'] ."'>"; ?>
+                                  <?php echo "<input name='name' readonly class='form-control' type='text' required='' value='" .$row['tenNV'] ."'>"; ?>
                                 </div>
                                 <div class="form-group col-md-4">
                                   <label class="control-label">Địa chỉ thường trú</label>
-                                  <?php echo "<input name='address' class='form-control' type='text' required='' value='" .$row['thanhPho'] ."'>"; ?>
+                                  <?php echo "<input name='address' readonly class='form-control' type='text' required='' value='" .$row['thanhPho'] ."'>"; ?>
                                 </div>
                                 <div class="form-group col-md-4">
                                   <label class="control-label">Giới tính</label>
-                                  <select name="gender" class="form-control" id="exampleSelect2" required="">
+                                  <select name="gender" readonly class="form-control" id="exampleSelect2" required="">
                                     <option value="blank">-- Chọn giới tính --</option>
                                     <?php
                                         if($row['gioiTinh'] == 1) {
@@ -176,15 +176,15 @@
                                 </div>
                                 <div class="form-group col-md-4">
                                   <label class="control-label">Địa chỉ email</label>
-                                  <?php echo "<input name='email' class='form-control' type='text' required='' value='" .$row['email'] ."'>"; ?>
+                                  <?php echo "<input name='email' readonly class='form-control' type='text' required='' value='" .$row['email'] ."'>"; ?>
                                 </div>
                                 <div class="form-group col-md-4">
                                   <label class="control-label">Số điện thoại</label>
-                                  <?php echo "<input name='phone' class='form-control' type='text' required='' value='" .$row['soDT'] ."'>"; ?>
+                                  <?php echo "<input name='phone' readonly class='form-control' type='text' required='' value='" .$row['soDT'] ."'>"; ?>
                                 </div>
                                 <div class="form-group col-md-4">
                                   <label for="exampleSelect1" class="control-label">Chức vụ</label>
-                                  <select name="job" class="form-control" id="exampleSelect1">
+                                  <select name="job" readonly class="form-control" id="exampleSelect1">
                                     <option>-- Chọn chức vụ --</option>
                                     
                                     <?php
@@ -203,7 +203,7 @@
                                 </div>
                                 <div class="form-group col-md-4">
                                   <label class="control-label">Phòng ban</label>
-                                  <select name="department" class="form-control" id="exampleSelect3">
+                                  <select name="department" readonly class="form-control" id="exampleSelect3">
                                     <option>-- Chọn phòng ban --</option>
                                     <?php
                                       $sql_pb = "SELECT * FROM phongban";
@@ -221,7 +221,7 @@
                                 </div>
                                 <div class="form-group col-md-4">
                                   <label class="control-label">Bậc lương</label>
-                                  <select name="salary" class="form-control" id="exampleSelect3">
+                                  <select name="salary" readonly class="form-control" id="exampleSelect3">
                                     <option>-- Chọn bậc lương --</option>
                                     <?php
                                       $sql_luong = "SELECT * FROM luong";
@@ -243,7 +243,7 @@
                                 </div>
                                 <div class="form-group col-md-3">
                                   <label class="control-label">Loại hợp đồng</label>
-                                  <select name="contract_type" class="form-control" required="">
+                                  <select name="contract_type" readonly class="form-control" required="">
                                     <option value="blank">-- Chọn loại hợp đồng --</option>
                                     <?php
                                         if($row['loaiHopDong'] == "Chính thức") {
@@ -259,16 +259,15 @@
                                 </div>
                                 <div class="form-group col-md-3">
                                   <label class="control-label">Ngày bắt đầu</label>
-                                  <?php echo "<input name='date_start' class='form-control' type='date' required='' value='" .$row['ngayBatDau'] ."'>"; ?>
+                                  <?php echo "<input name='date_start' readonly class='form-control' type='date' required='' value='" .$row['ngayBatDau'] ."'>"; ?>
                                 </div>
                                 <div class="form-group col-md-3">
                                   <label class="control-label">Ngày kết thúc</label>
-                                  <?php echo "<input name='date_end' class='form-control' type='date' required='' value='" .$row['ngayKetThuc'] ."'>"; ?>
+                                  <?php echo "<input readonly name='date_end' class='form-control' type='date' required='' value='" .$row['ngayKetThuc'] ."'>"; ?>
                                 </div>
                                 <div class="form-group col-md-12">
                                   <label for="exampleFormControlTextarea2">Thâm niên</label>
                                   <textarea readonly class="form-control rounded-0" id="exampleFormControlTextarea2" rows="4" placeholder="<?php 
-                                    //$thamnien = $row_thamnien['thamnien']/365;
                                     echo "Thâm niên: " .floor($row_thamnien['thamnien']/365) ." năm " .round($row_thamnien['thamnien']%365/30) . " tháng\n";
                                     if($row_nv['nv'] != null)
                                       echo "Nhân viên: " .floor($row_nv['nv']/365) ." năm " .round($row_nv['nv']%365/30) . " tháng\n";
@@ -279,17 +278,12 @@
                   
                                 <div class="form-group col-md-12">
                                   <label class="control-label">Ảnh 3x4 nhân viên</label>
-                                  <div id="myfileupload">
-                                    <input type="file" id="uploadfile" name="ImageUpload" onchange="readURL(this);">
-                                  </div>
                                   <div id="thumbbox">
                                     <?php echo '<img src="data:image;base64,'.base64_encode($row['avatar']) .'" alt="image" style="width:150px;height:150px;" >'; ?>
                                     <a class="removeimg" href="javascript:"></a>
                                   </div>
                                 </div>
-                                <div class="form-add-btn text-center col-md-12">
-                                  <button name="add_emp" class="btn btn-save" type="submit">Chỉnh sửa</button>
-                                  <a class="btn btn-cancel" href="./dsnhanvien.php">Hủy bỏ</a>
+                                  <a class="btn btn-cancel" href="./dsnhanvien_nghiviec.php">Hủy bỏ</a>
                                 </div>
                             </form>
                         </div>

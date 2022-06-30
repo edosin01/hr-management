@@ -2,7 +2,7 @@
     include 'dbconfig.php';
     $sql = "SELECT * FROM `nhanvien` INNER JOIN chucvu ON nhanvien.maChucVu = chucvu.maChucVu
         INNER JOIN phongban ON phongban.maPhongBan = nhanvien.maPhongBan
-        WHERE tinhTrang = 1
+        WHERE tinhTrang = 0
         order by maNV;";
     $result = mysqli_query($conn, $sql);
 ?>
@@ -13,7 +13,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Danh sách nhân viên</title>
+    <title>Danh sách nhân viên thôi việc</title>
     
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" rel="stylesheet"/>
@@ -100,54 +100,17 @@
         <!-- Begin: Thanh tiêu đề -->
         <nav class="navbar tieude">
           <div class="container-fluid">
-            <a class="navbar-brand clwhite navbar-title">Danh sách nhân viên</a>
-            <form class="d-flex form-search" method="get" action="search.php">
-              <input
-                class="form-control me-2"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-                name="filter"
-                required
-                value=""
-              />
-              <button class="btn btn-outline-success" type="submit">
-                Search
-              </button>
-            </form>
+            <a class="navbar-brand clwhite navbar-title">Danh sách nhân viên đã nghỉ</a>
           </div>
         </nav>
         <!-- End: Thanh tiêu đề -->
 
         <!-- Begin: Danh sách nhân viên -->
         <div class="row">
-          <div class="col-md-12">
-            <div class="row element-button">
-              <div class="col-s-2">
-                <a class="btn btn-add btn-sm" href="./form_themnv.php" title="Thêm"><i class="fas fa-plus"></i>
-                  Tạo mới nhân viên</a>
-              </div>
-              <div class="col-s-2">
-                <a class="btn btn-sm nhap-tu-file" href="../Controller/update_thamnien.php" type="button" title="Cập nhật"><i class="fas fa-file-upload"></i> Cập nhật danh sách</a>
-              </div>
-    
-              <div class="col-s-2">
-                <a class="btn btn-excel btn-sm" href="" title="In"><i class="fas fa-file-excel"></i> Xuất Excel</a>
-              </div>
-              <div class="col-s-2">
-                <a class="btn btn-sm pdf-file" type="button" title="In"><i class="fas fa-file-pdf"></i> Xuất PDF</a>
-              </div>
-              <div class="col-s-2">
-                <a class="btn btn-sm btn-delete" type="button" title="Xóa"><i class="fas fa-trash-alt"></i> Xóa tất cả </a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
             <div class="col-md-12">
                 <div class="row" id="ds-table">
                     <div class="col-sm-12">
-                    <span class="table-title">Danh sách nhân viên</span>
+                    <span class="table-title">Danh sách nhân viên đã nghỉ việc</span>
                         <table class="table table-hover table-responsive table-bordered table-wrapper js-copytextarea" cellpadding="0" cellspacing="0" border="0">
                             <thead class="table-sticky">
                                 <tr>
@@ -178,16 +141,10 @@
                                   echo "<td>". $row['tenPhongBan']."</td>";
 
                                   echo"<td class='table-td-center'>
-                                    <a class='btn-form' href='./chitiet_nhanvien.php?update=" .$row['maNV'] ."'>
-                                      <button class='btn btn-primary btn-sm edit' type='button' title='Sửa'>
-                                        <i class='fas fa-edit'></i>
-                                      </button>
-                                    </a>
-                                    <a class='btn-form' href='../Controller/delete_nv.php?delete=" .$row['maNV'] ."' onclick='return confirm('Bạn có chắc muốn xóa bản ghi này?')'>
-                                      <button class='btn btn-primary btn-sm trash' type='button' title='Xóa'>
-                                        <i class='fas fa-trash-alt'></i>
-                                      </button>
-                                    </a></td>";
+                                        <a class='btn-form' href='./chitiet_nhanvien_nghi.php?update=" .$row['maNV'] ."'>
+                                            <button type='button' class='btn btn-info'>Chi tiết</button>
+                                        </a>
+                                    </td>";
                                   echo "</tr>";
                                   $i++;
                                 }

@@ -34,9 +34,35 @@
             $sql = "UPDATE nhanvien SET maChucVu = (SELECT maChucVu FROM chucvu where tenChucVu = 'Nhân viên') WHERE maNV = '" .$old_data['maTruongP'] ."'";
             $query = mysqli_query($conn, $sql);
 
+            // Cập nhật hồ sơ cũ
+            $sql = "SELECT hoso.maNV, MAX(ngayLuuChuyen) as ngayNhamChuc FROM hoso WHERE maNV = '" .$old_data['maTruongP'] ."'";
+            $result = mysqli_query($conn, $sql);
+            $row = mysqli_fetch_array($result);
+            $ngayNhamChuc = addslashes($row['ngayNhamChuc']);
+            $sql_update = "UPDATE hoso SET soNgayDamNhiem = DATEDIFF(CURRENT_DATE, '$ngayNhamChuc')
+                WHERE ngayLuuChuyen = '$ngayNhamChuc' AND maNV = '" .$old_data['maTruongP'] ."'";
+            $result = mysqli_query($conn, $sql_update);
+
+            //Thêm hồ sơ mới
+            $sql = "INSERT INTO hoso VALUES(null, '" .$old_data['maTruongP'] ."', (SELECT maChucVu FROM chucvu where tenChucVu = 'Nhân viên'), CURRENT_DATE, 0, 1)";
+            $query = mysqli_query($conn, $sql);
+
             // Nếu có chọn trưởng phòng mới
             if($leader != NULL) { // chuyển nhân viên mới lên làm trưởng phòng
                 $sql = "UPDATE nhanvien SET maChucVu = (SELECT maChucVu FROM chucvu where tenChucVu = 'Trưởng phòng'), maPhongBan ='$id' WHERE maNV = '$leader'";
+                $query = mysqli_query($conn, $sql);
+
+                // Cập nhật hồ sơ cũ
+                $sql = "SELECT hoso.maNV, MAX(ngayLuuChuyen) as ngayNhamChuc FROM hoso WHERE maNV = '$leader'";
+                $result = mysqli_query($conn, $sql);
+                $row = mysqli_fetch_array($result);
+                $ngayNhamChuc = addslashes($row['ngayNhamChuc']);
+                $sql_update = "UPDATE hoso SET soNgayDamNhiem = DATEDIFF(CURRENT_DATE, '$ngayNhamChuc')
+                    WHERE ngayLuuChuyen = '$ngayNhamChuc' AND maNV = '$leader'";
+                $result = mysqli_query($conn, $sql_update);
+
+                //Thêm hồ sơ mới
+                $sql = "INSERT INTO hoso VALUES(null, '$leader', (SELECT maChucVu FROM chucvu where tenChucVu = 'Trưởng phòng'), CURRENT_DATE, 0, 1)";
                 $query = mysqli_query($conn, $sql);
 
                 $sql = "UPDATE phongban SET tenPhongBan = '$name', soDienThoai = '$phone', maTruongP = '$leader' WHERE maPhongBan = '$id'";

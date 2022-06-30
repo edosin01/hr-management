@@ -33,9 +33,25 @@
         }
     }
     else {
+
+
         $sql = "INSERT INTO phongban (maPhongBan, tenPhongBan, maTruongP, soDienThoai) VALUES ('$id', '$name', $leader, '$phone')";
         $query = mysqli_query($conn, $sql);
-        $sql = "UPDATE nhanvien SET maChucVu = '$maChucVu' WHERE maNV = '$id'";
+
+        // Cập nhật hồ sơ cũ
+        $sql = "SELECT hoso.maNV, MAX(ngayLuuChuyen) as ngayNhamChuc FROM hoso WHERE maNV = '$leader'";
+        $result = mysqli_query($conn, $sql);
+        $row = mysqli_fetch_array($result);
+        $ngayNhamChuc = addslashes($row['ngayNhamChuc']);
+        $sql_update = "UPDATE hoso SET soNgayDamNhiem = DATEDIFF(CURRENT_DATE, '$ngayNhamChuc')
+            WHERE ngayLuuChuyen = '$ngayNhamChuc' AND maNV = '$leader'";
+        $result = mysqli_query($conn, $sql_update);
+
+        //Thêm hồ sơ mới
+        $sql = "INSERT INTO hoso VALUES(null, '$leader', $maChucVu, CURRENT_DATE, 0, 1)";
+        $query = mysqli_query($conn, $sql);
+
+        $sql = "UPDATE nhanvien SET maChucVu = '$maChucVu', maPhongBan = '$id' WHERE maNV = '$leader'";
         if (mysqli_query($conn, $sql)) {
             header("Location: ../HomePage/index.php");
         }
