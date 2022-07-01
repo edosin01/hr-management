@@ -328,7 +328,6 @@
             $numRow++;
         }
         // Khởi tạo đối tượng PHPExcel_IOFactory để thực hiện ghi file
-        // ở đây mình lưu file dưới dạng excel2007
         
         PHPExcel_IOFactory::createWriter($excel, 'Excel2007')->save('../assets/SourceFile/tinhluong_t' .$month .'_' .$year .'.xlsx');
         echo "<script>
